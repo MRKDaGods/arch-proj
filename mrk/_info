@@ -8,3 +8,260 @@ z2
 !i10f 100
 cModel Technology
 dD:/CUFE
+Pcommon
+Z0 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z1 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
+w1713417979
+Z2 dD:/CUFE/arch-proj
+8D:/CUFE/arch-proj/common.vhd
+FD:/CUFE/arch-proj/common.vhd
+l0
+L6
+Vh[dgA54MN:<6b<TcSC<[g2
+!s100 KLRzBZ5jPVgnC78Na<;[g0
+Z3 OV;C;10.5b;63
+32
+!s110 1713418553
+!i10b 1
+!s108 1713418553.000000
+!s90 -reportprogress|300|-work|mrk|-2002|-explicit|-stats=none|D:/CUFE/arch-proj/common.vhd|
+!s107 D:/CUFE/arch-proj/common.vhd|
+!i113 1
+Z4 o-work mrk -2002 -explicit
+Z5 tExplicit 1 CvgOpt 0
+Edata_memory
+Z6 w1713418931
+Z7 DPx3 mrk 6 common 0 22 h[dgA54MN:<6b<TcSC<[g2
+Z8 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
+R0
+R1
+R2
+Z9 8D:/CUFE/arch-proj/src/components/data_memory.vhd
+Z10 FD:/CUFE/arch-proj/src/components/data_memory.vhd
+l0
+L10
+VT>LDI9^EzQ7i9WY4OY7^a1
+!s100 P;azzn[bAec49Md3Vf=kI3
+R3
+32
+Z11 !s110 1713418935
+!i10b 1
+Z12 !s108 1713418934.000000
+Z13 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/CUFE/arch-proj/src/components/data_memory.vhd|
+Z14 !s107 D:/CUFE/arch-proj/src/components/data_memory.vhd|
+!i113 1
+Z15 o-work work -2002 -explicit
+R5
+Adata_memory_arch
+R7
+R8
+R0
+R1
+DEx4 work 11 data_memory 0 22 T>LDI9^EzQ7i9WY4OY7^a1
+l27
+L24
+Ve@eE=24;15]B_d:Jjel7d1
+!s100 12LWJF?RHo2914BJbm]HI1
+R3
+32
+R11
+!i10b 1
+R12
+R13
+R14
+!i113 1
+R15
+R5
+Einstruction_memory
+Z16 w1713418545
+R7
+R8
+R0
+R1
+R2
+Z17 8D:/CUFE/arch-proj/src/components/instruction_memory.vhd
+Z18 FD:/CUFE/arch-proj/src/components/instruction_memory.vhd
+l0
+L10
+V;o>ocjdD2VkzIOAAV[iMm0
+!s100 D6hP3nOn;V]b]A[@Kc4T^0
+R3
+32
+Z19 !s110 1713418556
+!i10b 1
+Z20 !s108 1713418556.000000
+Z21 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/CUFE/arch-proj/src/components/instruction_memory.vhd|
+Z22 !s107 D:/CUFE/arch-proj/src/components/instruction_memory.vhd|
+!i113 1
+R15
+R5
+Ainstruction_memory_arch
+R7
+R8
+R0
+R1
+DEx4 work 18 instruction_memory 0 22 ;o>ocjdD2VkzIOAAV[iMm0
+l22
+L19
+V3:MIj=Dl0ee:h[IL_?MZ:0
+!s100 PMji:3Y^DUZ2G[zghbI7:2
+R3
+32
+R19
+!i10b 1
+R20
+R21
+R22
+!i113 1
+R15
+R5
+Elogical_instructions
+Z23 w1713404385
+Z24 DPx3 mrk 6 common 0 22 LXnh?M`ldaWPBnTJ^REK72
+R8
+R0
+R1
+R2
+Z25 8D:/CUFE/arch-proj/src/instructions/logical_instructions.vhd
+Z26 FD:/CUFE/arch-proj/src/instructions/logical_instructions.vhd
+l0
+L11
+VmzJKQCX;1^DjLFc;_4QRo0
+!s100 bieoIaU5KGl_d;`ZHezh30
+R3
+32
+Z27 !s110 1713415889
+!i10b 1
+Z28 !s108 1713415889.000000
+Z29 !s90 -reportprogress|300|-work|mrk|-2002|-explicit|-stats=none|D:/CUFE/arch-proj/src/instructions/logical_instructions.vhd|
+Z30 !s107 D:/CUFE/arch-proj/src/instructions/logical_instructions.vhd|
+!i113 1
+R4
+R5
+Alogical_instructions_arch
+R24
+R8
+R0
+R1
+Z31 DEx4 work 20 logical_instructions 0 22 mzJKQCX;1^DjLFc;_4QRo0
+l20
+L19
+VM^fZgnAf`>^lo>EeX^een1
+!s100 A6emGV>DX?j^l]g8=2@fi1
+R3
+32
+R27
+!i10b 1
+R28
+R29
+R30
+!i113 1
+R4
+R5
+Abehavioral
+DPx3 mrk 6 common 0 22 X=S:hD=C9;Nh9QPbi;hoU0
+R8
+R0
+R1
+R31
+l20
+L19
+VT3oLR00UeHM@@ZgQbc7zV1
+!s100 LSLlHL1:A2IIg>:0lYlHF0
+R3
+32
+!s110 1713403770
+!i10b 1
+!s108 1713403769.000000
+R29
+R30
+!i113 1
+R4
+R5
+w1713403766
+Ememory
+Z32 w1713406396
+R24
+R8
+R0
+R1
+R2
+Z33 8D:/CUFE/arch-proj/src/components/memory.vhd
+Z34 FD:/CUFE/arch-proj/src/components/memory.vhd
+l0
+L10
+V:3KeI6Xik^lC@l2kKme0;3
+!s100 adfEl3ZnIaTajI:ST^:>`1
+R3
+32
+Z35 !s110 1713415890
+!i10b 1
+R28
+Z36 !s90 -reportprogress|300|-work|mrk|-2002|-explicit|-stats=none|D:/CUFE/arch-proj/src/components/memory.vhd|
+Z37 !s107 D:/CUFE/arch-proj/src/components/memory.vhd|
+!i113 1
+R4
+R5
+Amemory_arch
+R24
+R8
+R0
+R1
+DEx4 work 6 memory 0 22 :3KeI6Xik^lC@l2kKme0;3
+l26
+L22
+VH[SjHLFD6ACdDQRO@kfAO0
+!s100 flaYAXD?n4Om0CRlJ;:553
+R3
+32
+R35
+!i10b 1
+R28
+R36
+R37
+!i113 1
+R4
+R5
+Eregister_file
+Z38 w1713415997
+R24
+R8
+R0
+R1
+R2
+Z39 8D:/CUFE/arch-proj/src/components/register_file.vhd
+Z40 FD:/CUFE/arch-proj/src/components/register_file.vhd
+l0
+L11
+Vmbk8Kh8=;HnV69QF6mhD[0
+!s100 YcW?Wf_7QzYCS1T9aUSLK1
+R3
+32
+Z41 !s110 1713416005
+!i10b 1
+Z42 !s108 1713416005.000000
+Z43 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/CUFE/arch-proj/src/components/register_file.vhd|
+Z44 !s107 D:/CUFE/arch-proj/src/components/register_file.vhd|
+!i113 1
+R15
+R5
+Aregister_file_arch
+R24
+R8
+R0
+R1
+DEx4 work 13 register_file 0 22 mbk8Kh8=;HnV69QF6mhD[0
+l37
+L33
+V3@dT;dB_OXmRK;_l@kgoN0
+!s100 8NISfKM]jlLmW0QMiP6k=3
+R3
+32
+R41
+!i10b 1
+R42
+R43
+R44
+!i113 1
+R15
+R5

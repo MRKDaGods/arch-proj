@@ -1,1 +1,31 @@
+D:/CUFE/arch-proj/src/components/register_file.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/CUFE/arch-proj/src/components/register_file.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package COMMON
+-- Compiling entity Register_File
+-- Compiling architecture Register_File_Arch of Register_File
 
+} {} {}} D:/CUFE/arch-proj/src/components/memory.vhd {1 {vcom -work mrk -2002 -explicit -stats=none D:/CUFE/arch-proj/src/components/memory.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package COMMON
+-- Compiling entity Memory
+-- Compiling architecture Memory_Arch of Memory
+
+} {} {}} D:/CUFE/arch-proj/src/instructions/logical_instructions.vhd {1 {vcom -work mrk -2002 -explicit -stats=none D:/CUFE/arch-proj/src/instructions/logical_instructions.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package COMMON
+-- Compiling entity Logical_Instructions
+-- Compiling architecture Logical_Instructions_Arch of Logical_Instructions
+
+} {} {}}
