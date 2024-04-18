@@ -1,4 +1,18 @@
-D:/CUFE/arch-proj/src/components/register_file.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/CUFE/arch-proj/src/components/register_file.vhd
+D:/CUFE/arch-proj/src/components/processor.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/CUFE/arch-proj/src/components/processor.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package COMMON
+-- Compiling entity Processor
+-- Compiling architecture Processor_Arch of Processor
+-- Loading entity PC
+-- Loading entity Instruction_Memory
+-- Loading entity Opcode_Checker
+-- Loading entity Fetch_Decode
+
+} {} {}} D:/CUFE/arch-proj/src/components/register_file.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/CUFE/arch-proj/src/components/register_file.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
 -- Loading package TEXTIO
@@ -8,15 +22,52 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Compiling entity Register_File
 -- Compiling architecture Register_File_Arch of Register_File
 
-} {} {}} D:/CUFE/arch-proj/src/components/memory.vhd {1 {vcom -work mrk -2002 -explicit -stats=none D:/CUFE/arch-proj/src/components/memory.vhd
+} {} {}} D:/CUFE/arch-proj/src/components/fetch_decode.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/CUFE/arch-proj/src/components/fetch_decode.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
 -- Loading package TEXTIO
 -- Loading package std_logic_1164
 -- Loading package NUMERIC_STD
 -- Loading package COMMON
--- Compiling entity Memory
--- Compiling architecture Memory_Arch of Memory
+-- Compiling entity Fetch_Decode
+-- Compiling architecture Fetch_Decode_Arch of Fetch_Decode
+
+} {} {}} D:/CUFE/arch-proj/common.vhd {1 {vcom -work mrk -2002 -explicit -stats=none D:/CUFE/arch-proj/common.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling package COMMON
+
+} {} {}} D:/CUFE/arch-proj/src/components/opcode_checker.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/CUFE/arch-proj/src/components/opcode_checker.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package COMMON
+-- Compiling entity Opcode_Checker
+-- Compiling architecture Opcode_Checker_Arch of Opcode_Checker
+
+} {} {}} D:/CUFE/arch-proj/src/components/instruction_memory.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/CUFE/arch-proj/src/components/instruction_memory.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package COMMON
+-- Compiling entity Instruction_Memory
+-- Compiling architecture Instruction_Memory_Arch of Instruction_Memory
+
+} {} {}} src/components/data_memory.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/CUFE/arch-proj/src/components/data_memory.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package COMMON
+-- Compiling entity Data_Memory
+-- Compiling architecture Data_Memory_Arch of Data_Memory
 
 } {} {}} D:/CUFE/arch-proj/src/instructions/logical_instructions.vhd {1 {vcom -work mrk -2002 -explicit -stats=none D:/CUFE/arch-proj/src/instructions/logical_instructions.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
