@@ -9,7 +9,6 @@ USE mrk.COMMON.ALL;
 
 ENTITY Opcode_Checker IS
     PORT (
-        clk : IN STD_LOGIC;
         opcode : IN OPCODE; -- 5 bits
         extra_reads : OUT STD_LOGIC
     );
@@ -17,16 +16,9 @@ END ENTITY Opcode_Checker;
 
 ARCHITECTURE Opcode_Checker_Arch OF Opcode_Checker IS
 BEGIN
-    PROCESS (clk)
-    BEGIN
-        -- for now LDM is the only instruction that requires extra reads
-        CASE opcode IS
-            WHEN OPCODE_LDM =>
-                extra_reads <= '1';
-            WHEN OTHERS =>
-                extra_reads <= '0';
-        END CASE;
-
-    END PROCESS;
+    WITH opcode SELECT
+        extra_reads <=
+        '1' WHEN OPCODE_LDM,
+        '0' WHEN OTHERS;
 
 END Opcode_Checker_Arch;

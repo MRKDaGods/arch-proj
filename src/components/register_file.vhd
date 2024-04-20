@@ -23,10 +23,10 @@ ENTITY Register_File IS
         write_data_2 : IN REG32;
 
         -- two reads
-        read_addr1 : IN REG_SELECTOR;
-        read_addr2 : IN REG_SELECTOR;
-        read_data1 : OUT REG32;
-        read_data2 : OUT REG32
+        read_addr_1 : IN REG_SELECTOR;
+        read_addr_2 : IN REG_SELECTOR;
+        read_data_1 : OUT REG32;
+        read_data_2 : OUT REG32
     );
 END Register_File;
 
@@ -51,7 +51,7 @@ BEGIN
         END IF;
     END PROCESS;
 
-    read_data1 <= regs(to_integer(unsigned(read_addr1)));
-    read_data2 <= regs(to_integer(unsigned(read_addr2)));
+    read_data_1 <= regs(to_integer(unsigned(read_addr_1)));
+    read_data_2 <= regs(to_integer(unsigned(read_addr_2)));
 
 END Register_File_Arch;

@@ -24,13 +24,21 @@ ARCHITECTURE Processor_Arch OF Processor IS
     SIGNAL pc : MEM_ADDRESS; -- 32 bit
 
     -- instruction memory
-    SIGNAL instruction_memory_bus : MEM_CELL; -- 16 bit
+    SIGNAL im_instruction_memory_bus : MEM_CELL; -- 16 bit
 
     -- opcode checker unit
-    SIGNAL extra_reads : STD_LOGIC;
+    SIGNAL opc_extra_reads : STD_LOGIC;
 
     -- fetch/decode register
-    SIGNAL fetched_instruction : FETCHED_INSTRUCTION;
+    SIGNAL fd_fetched_instruction : FETCHED_INSTRUCTION;
+
+    -- register file
+    SIGNAL regf_read_data_1 : REG32;
+    SIGNAL regf_read_data_2 : REG32;
+
+    -- decode/execute
+    SIGNAL de_read_data_1 : REG32;
+    SIGNAL de_read_data_2 : REG32;
 
 BEGIN
     clkProcess : PROCESS -- Clock process
@@ -44,7 +52,7 @@ BEGIN
         PORT MAP(
             clk => clk,
             reset => reset,
-            extra_reads => extra_reads,
+            extra_reads => opc_extra_reads,
             pcCounter => pc
         );
 
@@ -54,15 +62,14 @@ BEGIN
             clk => clk,
             reset => reset,
             pc => pc,
-            data => instruction_memory_bus
+            data => im_instruction_memory_bus
         );
 
     -- opcode checker unit
     opcodeChecker : ENTITY mrk.Opcode_Checker
         PORT MAP(
-            clk => clk,
-            opcode => instruction_memory_bus(4 DOWNTO 0), -- first 5 bits
-            extra_reads => extra_reads
+            opcode => im_instruction_memory_bus(4 DOWNTO 0), -- first 5 bits
+            extra_reads => opc_extra_reads
         );
 
     -- fetch/decode register
@@ -70,9 +77,50 @@ BEGIN
         PORT MAP(
             clk => clk,
             reset => reset,
-            raw_instruction => instruction_memory_bus,
-            extra_reads => extra_reads,
-            fetched_instruction => fetched_instruction
+            raw_instruction => im_instruction_memory_bus,
+            extra_reads => opc_extra_reads,
+            out_instruction => fd_fetched_instruction
+        );
+
+    -- register file
+    registerFile : ENTITY mrk.Register_File
+        PORT MAP(
+            clk => clk,
+            reset => reset,
+
+            -- input
+
+            write_enable_1 => '0',
+            write_addr_1 => (others => '0'), -- wb
+            write_data_1 => (others => '0'), -- wb
+
+            write_enable_2 => '0',
+            write_addr_2 => (others => '0'), -- wb
+            write_data_2 => (others => '0'), -- wb
+
+            read_addr_1 => fd_fetched_instruction(7 DOWNTO 5), -- src1
+            read_addr_2 => fd_fetched_instruction(10 DOWNTO 8), -- src2
+
+            -- output
+            read_data_1 => regf_read_data_1,
+            read_data_2 => regf_read_data_2
+        );
+
+    -- decode/execute
+    decodeExecute : ENTITY mrk.Decode_Execute
+        PORT MAP(
+            -- input
+            clk => clk,
+
+            write_enable => '0', -- controller?
+            write_address => fd_fetched_instruction(13 downto 11), -- dst
+            
+            read_data_1 => regf_read_data_1,
+            read_data_2 => regf_read_data_2,
+
+            -- output
+            out_read_data_1 => de_read_data_1,
+            out_read_data_2 => de_read_data_2
         );
 
 END Processor_Arch;
