@@ -22,6 +22,7 @@ ENTITY Controller IS
         alu_pass_through : OUT STD_LOGIC; -- should we use the alu? (or just pass the data)
         alu_use_logical : OUT STD_LOGIC; -- logical or arithmetic operation?
         alu_use_immediate : OUT STD_LOGIC; -- is the second operand an immediate value?
+        alu_update_flags : OUT STD_LOGIC; -- should we update flags?
 
         sign_extend_immediate : OUT STD_LOGIC -- should we sign extend the immediate value?
     );
@@ -95,9 +96,27 @@ BEGIN
         alu_pass_through <=
         '1' WHEN OPCODE_MOV,
         '1' WHEN OPCODE_SWAP,
+        '1' WHEN OPCODE_LDM,
         '0' WHEN OTHERS;
 
     -- when do we use immediate value as the second operand?
     alu_use_immediate <= reserved_bit;
+
+    -- when do we need to update flags? (to optimize, do we need all these with select?)
+    WITH opcode SELECT
+        alu_update_flags <=
+        '1' WHEN OPCODE_NOT,
+        '1' WHEN OPCODE_AND,
+        '1' WHEN OPCODE_OR,
+        '1' WHEN OPCODE_XOR,
+        '1' WHEN OPCODE_CMP,
+        '1' WHEN OPCODE_NEG,
+        '1' WHEN OPCODE_ADD,
+        '1' WHEN OPCODE_ADDI,
+        '1' WHEN OPCODE_SUB,
+        '1' WHEN OPCODE_SUBI,
+        '1' WHEN OPCODE_INC,
+        '1' WHEN OPCODE_DEC,
+        '0' WHEN OTHERS;
 
 END Controller_Arch;

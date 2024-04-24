@@ -1,12 +1,33 @@
-src/instructions/arithmetic_instructions.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/CUFE/arch-proj/src/instructions/arithmetic_instructions.vhd
+D:/CUFE/arch-proj/src/components/processor.vhd {1 {vcom -work work -2008 -explicit -stats=none D:/CUFE/arch-proj/src/components/processor.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
 -- Loading package TEXTIO
 -- Loading package std_logic_1164
 -- Loading package NUMERIC_STD
 -- Loading package COMMON
--- Compiling entity Arithmetic_Instructions
--- Compiling architecture Arithmetic_Instructions_Arch of Arithmetic_Instructions
+-- Compiling entity Processor
+-- Compiling architecture Processor_Arch of Processor
+-- Loading entity PC
+-- Loading entity Instruction_Memory
+-- Loading entity Opcode_Checker
+-- Loading entity Fetch_Decode
+-- Loading entity Register_File
+-- Loading entity Controller
+-- Loading entity Decode_Execute
+-- Loading entity ALU
+-- Loading entity Execute_Memory
+-- Loading entity Data_Memory
+-- Loading entity Memory_WriteBack
+
+} {} {}} src/components/decode_execute.vhd {1 {vcom -work work -2008 -explicit -stats=none D:/CUFE/arch-proj/src/components/decode_execute.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package COMMON
+-- Compiling entity Decode_Execute
+-- Compiling architecture Decode_Execute_Arch of Decode_Execute
 
 } {} {}} D:/CUFE/arch-proj/src/components/instruction_memory.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/CUFE/arch-proj/src/components/instruction_memory.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
@@ -35,6 +56,18 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Loading package std_logic_1164
 -- Compiling package COMMON
 
+} {} {}} src/components/alu.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/CUFE/arch-proj/src/components/alu.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package COMMON
+-- Compiling entity ALU
+-- Compiling architecture ALU_Arch of ALU
+-- Loading entity Logical_Instructions
+-- Loading entity Arithmetic_Instructions
+
 } {} {}} src/components/data_memory.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/CUFE/arch-proj/src/components/data_memory.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
@@ -44,6 +77,16 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Loading package COMMON
 -- Compiling entity Data_Memory
 -- Compiling architecture Data_Memory_Arch of Data_Memory
+
+} {} {}} src/components/controller.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/CUFE/arch-proj/src/components/controller.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package COMMON
+-- Compiling entity Controller
+-- Compiling architecture Controller_Arch of Controller
 
 } {} {}} D:/CUFE/arch-proj/src/components/pc.vhd {1 {vcom -work work -2008 -explicit -stats=none D:/CUFE/arch-proj/src/components/pc.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016

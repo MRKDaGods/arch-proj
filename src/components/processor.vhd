@@ -11,7 +11,7 @@ ENTITY Processor IS
     PORT (
         in_port : IN REG32; -- 32 bit
         interrupt : IN STD_LOGIC;
-        reset : IN STD_LOGIC;
+        external_reset : IN STD_LOGIC;
         out_port : OUT REG32; -- 32 bit
         exception : OUT STD_LOGIC
     );
@@ -19,6 +19,7 @@ END Processor;
 
 ARCHITECTURE Processor_Arch OF Processor IS
     SIGNAL clk : STD_LOGIC := '1';
+    SIGNAL reset : STD_LOGIC := '1';
 
     -- pc
     SIGNAL pc : MEM_ADDRESS; -- 32 bit
@@ -44,6 +45,7 @@ ARCHITECTURE Processor_Arch OF Processor IS
     SIGNAL ctrl_alu_pass_through : STD_LOGIC;
     SIGNAL ctrl_alu_use_logical : STD_LOGIC;
     SIGNAL ctrl_alu_use_immediate : STD_LOGIC;
+    SIGNAL ctrl_alu_update_flags : STD_LOGIC;
     SIGNAL ctrl_sign_extend_immediate : STD_LOGIC;
 
     -- decode/execute -- todo: put em in a bus
@@ -57,6 +59,7 @@ ARCHITECTURE Processor_Arch OF Processor IS
     SIGNAL de_alu_pass_through : STD_LOGIC;
     SIGNAL de_alu_use_logical : STD_LOGIC;
     SIGNAL de_alu_use_immediate : STD_LOGIC;
+    SIGNAL de_alu_update_flags : STD_LOGIC;
     SIGNAL de_instr_opcode : OPCODE;
     SIGNAL de_instr_immediate : SIGNED(31 DOWNTO 0);
 
@@ -87,12 +90,14 @@ BEGIN
         clk <= NOT clk;
     END PROCESS clkProcess;
 
-    -- rstProcess : PROCESS -- Reset process
-    -- BEGIN
-    --     reset <= '1';
-    --     WAIT FOR 50 ps;
-    --     reset <= '0';
-    -- END PROCESS rstProcess;
+    rstProcess : PROCESS -- Reset process
+    BEGIN
+        -- reset <= '1'; -- initially on
+        WAIT FOR 50 ps;
+        reset <= '0';
+
+        WAIT;
+    END PROCESS rstProcess;
 
     -- pc
     programCounter : ENTITY mrk.PC
@@ -167,6 +172,7 @@ BEGIN
             alu_pass_through => ctrl_alu_pass_through,
             alu_use_logical => ctrl_alu_use_logical,
             alu_use_immediate => ctrl_alu_use_immediate,
+            alu_update_flags => ctrl_alu_update_flags,
             sign_extend_immediate => ctrl_sign_extend_immediate
         );
 
@@ -189,6 +195,7 @@ BEGIN
             alu_pass_through => ctrl_alu_pass_through,
             alu_use_logical => ctrl_alu_use_logical,
             alu_use_immediate => ctrl_alu_use_immediate,
+            alu_update_flags => ctrl_alu_update_flags,
             sign_extend_immediate => ctrl_sign_extend_immediate,
             instr_opcode => fd_fetched_instruction(4 DOWNTO 0),
             instr_immediate => fd_fetched_instruction(31 DOWNTO 16),
@@ -204,6 +211,7 @@ BEGIN
             out_alu_pass_through => de_alu_pass_through,
             out_alu_use_logical => de_alu_use_logical,
             out_alu_use_immediate => de_alu_use_immediate,
+            out_alu_update_flags => de_alu_update_flags,
             out_instr_opcode => de_instr_opcode,
             out_instr_immediate => de_instr_immediate
         );
@@ -219,6 +227,7 @@ BEGIN
             ctrl_pass_through => de_alu_pass_through,
             ctrl_use_logic => de_alu_use_logical,
             ctrl_use_immediate => de_alu_use_immediate,
+            ctrl_update_flags => de_alu_update_flags,
 
             result => alu_result
         );

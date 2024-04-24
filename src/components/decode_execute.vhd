@@ -29,6 +29,7 @@ ENTITY Decode_Execute IS
         alu_pass_through : IN STD_LOGIC;
         alu_use_logical : IN STD_LOGIC;
         alu_use_immediate : IN STD_LOGIC;
+        alu_update_flags : IN STD_LOGIC;
         sign_extend_immediate : IN STD_LOGIC;
 
         instr_opcode : IN OPCODE;
@@ -48,6 +49,7 @@ ENTITY Decode_Execute IS
         out_alu_pass_through : OUT STD_LOGIC;
         out_alu_use_logical : OUT STD_LOGIC;
         out_alu_use_immediate : OUT STD_LOGIC;
+        out_alu_update_flags : OUT STD_LOGIC;
 
         out_instr_opcode : OUT OPCODE;
         out_instr_immediate : OUT SIGNED(31 DOWNTO 0) -- sign extended if needed
@@ -72,6 +74,7 @@ BEGIN
             out_alu_pass_through <= alu_pass_through;
             out_alu_use_logical <= alu_use_logical;
             out_alu_use_immediate <= alu_use_immediate;
+            out_alu_update_flags <= alu_update_flags;
 
             out_instr_opcode <= instr_opcode;
 
