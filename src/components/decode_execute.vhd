@@ -20,12 +20,32 @@ ENTITY Decode_Execute IS
         read_data_1 : IN REG32;
         read_data_2 : IN REG32;
 
+        -- memory control
+        mem_write : IN STD_LOGIC;
+        mem_read : IN STD_LOGIC;
+
+        -- alu control
+        alu_use_logical : IN STD_LOGIC;
+        alu_use_immediate : IN STD_LOGIC;
+
+        instr_opcode : IN OPCODE;
+        instr_immediate : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+
         -- output
         out_write_address : OUT REG_SELECTOR;
         out_write_enable : OUT STD_LOGIC;
 
         out_read_data_1 : OUT REG32;
-        out_read_data_2 : OUT REG32
+        out_read_data_2 : OUT REG32;
+
+        out_mem_write : OUT STD_LOGIC;
+        out_mem_read : OUT STD_LOGIC;
+
+        out_alu_use_logical : OUT STD_LOGIC;
+        out_alu_use_immediate : OUT STD_LOGIC;
+
+        out_instr_opcode : OUT OPCODE;
+        out_instr_immediate : OUT SIGNED(31 DOWNTO 0) -- sign extended
     );
 END Decode_Execute;
 
@@ -38,6 +58,17 @@ BEGIN
             out_write_enable <= write_enable;
             out_read_data_1 <= read_data_1;
             out_read_data_2 <= read_data_2;
+
+            out_mem_write <= mem_write;
+            out_mem_read <= mem_read;
+
+            out_alu_use_logical <= alu_use_logical;
+            out_alu_use_immediate <= alu_use_immediate;
+
+            out_instr_opcode <= instr_opcode;
+
+            -- sign extend immediate
+            out_instr_immediate <= resize(signed(instr_immediate), 32);
         END IF;
     END PROCESS;
 

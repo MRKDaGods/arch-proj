@@ -27,14 +27,14 @@ PACKAGE COMMON IS
 
     -- Constant types
 
-    -- logical alu signals (or, cmp, dec, etc)
-    SUBTYPE ALU_CS_LOGICAL IS STD_LOGIC_VECTOR(1 DOWNTO 0);
+    -- -- logical alu signals (or, cmp, dec, etc)
+    -- SUBTYPE ALU_CS_LOGICAL IS STD_LOGIC_VECTOR(1 DOWNTO 0);
 
-    -- alu control signals
-    CONSTANT ALU_CS_LOGICAL_NOT : ALU_CS_LOGICAL := "00";
-    CONSTANT ALU_CS_LOGICAL_OR : ALU_CS_LOGICAL := "01";
-    CONSTANT ALU_CS_LOGICAL_DEC : ALU_CS_LOGICAL := "10";
-    CONSTANT ALU_CS_LOGICAL_CMP : ALU_CS_LOGICAL := "11";
+    -- -- alu control signals
+    -- CONSTANT ALU_CS_LOGICAL_NOT : ALU_CS_LOGICAL := "00";
+    -- CONSTANT ALU_CS_LOGICAL_OR : ALU_CS_LOGICAL := "01";
+    -- CONSTANT ALU_CS_LOGICAL_DEC : ALU_CS_LOGICAL := "10";
+    -- CONSTANT ALU_CS_LOGICAL_CMP : ALU_CS_LOGICAL := "11";
 
     -- opcodes
     SUBTYPE OPCODE IS STD_LOGIC_VECTOR(4 DOWNTO 0);

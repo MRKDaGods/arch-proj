@@ -25,6 +25,7 @@ ENTITY Register_File IS
         -- two reads
         read_addr_1 : IN REG_SELECTOR;
         read_addr_2 : IN REG_SELECTOR;
+
         read_data_1 : OUT REG32;
         read_data_2 : OUT REG32
     );
