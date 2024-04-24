@@ -16,9 +16,14 @@ ENTITY Controller IS
         mem_write : OUT STD_LOGIC; -- should we write in memory?
         mem_read : OUT STD_LOGIC; -- should we read from memory?
 
+        mem_to_reg : OUT STD_LOGIC; -- should we write memory data to register?
+
         -- some alu signals
+        alu_pass_through : OUT STD_LOGIC; -- should we use the alu? (or just pass the data)
         alu_use_logical : OUT STD_LOGIC; -- logical or arithmetic operation?
-        alu_use_immediate : OUT STD_LOGIC -- is the second operand an immediate value?
+        alu_use_immediate : OUT STD_LOGIC; -- is the second operand an immediate value?
+
+        sign_extend_immediate : OUT STD_LOGIC -- should we sign extend the immediate value?
     );
 END ENTITY Controller;
 
@@ -69,6 +74,27 @@ BEGIN
         '1' WHEN OPCODE_AND,
         '1' WHEN OPCODE_OR,
         '1' WHEN OPCODE_XOR,
+        '0' WHEN OTHERS;
+
+    -- when do we write memory data to register?
+    WITH opcode SELECT
+        mem_to_reg <=
+        '1' WHEN OPCODE_POP,
+        '1' WHEN OPCODE_LDD,
+        '0' WHEN OTHERS;
+
+    -- when do we sign extend the immediate value?
+    WITH opcode SELECT
+        sign_extend_immediate <=
+        '1' WHEN OPCODE_STD,
+        '1' WHEN OPCODE_LDD,
+        '0' WHEN OTHERS;
+
+    -- when do we pass the data through ALU? (for write enabled instructions)
+    WITH opcode SELECT
+        alu_pass_through <=
+        '1' WHEN OPCODE_MOV,
+        '1' WHEN OPCODE_SWAP,
         '0' WHEN OTHERS;
 
     -- when do we use immediate value as the second operand?

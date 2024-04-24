@@ -18,6 +18,16 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Compiling entity Instruction_Memory
 -- Compiling architecture Instruction_Memory_Arch of Instruction_Memory
 
+} {} {}} D:/CUFE/arch-proj/src/components/execute_memory.vhd {1 {vcom -work work -2002 -explicit -stats=none {D:\CUFE\arch-proj\src\components\execute_memory.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package COMMON
+-- Compiling entity Execute_Memory
+-- Compiling architecture Execute_Memory_Arch of Execute_Memory
+
 } {} {}} D:/CUFE/arch-proj/common.vhd {1 {vcom -work mrk -2002 -explicit -stats=none D:/CUFE/arch-proj/common.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
@@ -44,6 +54,26 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Loading package COMMON
 -- Compiling entity PC
 -- Compiling architecture PC_Arch of PC
+
+} {} {}} D:/CUFE/arch-proj/src/components/memory_writeback.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/CUFE/arch-proj/src/components/memory_writeback.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package COMMON
+-- Compiling entity Memory_WriteBack
+-- Compiling architecture Memory_WriteBack_Arch of Memory_WriteBack
+
+} {} {}} D:/CUFE/arch-proj/src/components/register_file.vhd {1 {vcom -work work -2008 -explicit -stats=none D:/CUFE/arch-proj/src/components/register_file.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package COMMON
+-- Compiling entity Register_File
+-- Compiling architecture Register_File_Arch of Register_File
 
 } {} {}} D:/CUFE/arch-proj/src/components/fetch_decode.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/CUFE/arch-proj/src/components/fetch_decode.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016

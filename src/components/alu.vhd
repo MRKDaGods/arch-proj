@@ -16,6 +16,7 @@ ENTITY ALU IS
         opcode : IN OPCODE; -- opcode
 
         -- control signals
+        ctrl_pass_through : IN STD_LOGIC; -- pass through
         ctrl_use_logic : IN STD_LOGIC; -- logic or arithmetic operation
         ctrl_use_immediate : IN STD_LOGIC; -- use immediate value
 
@@ -50,7 +51,8 @@ BEGIN
         result => result_arithmetic
         );
 
-    result <= result_logical WHEN ctrl_use_logic = '1' ELSE
+    result <= operand_1 WHEN ctrl_pass_through = '1' ELSE
+        result_logical WHEN ctrl_use_logic = '1' ELSE
         result_arithmetic;
 
 END ALU_Arch;

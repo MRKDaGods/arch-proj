@@ -40,20 +40,45 @@ ARCHITECTURE Processor_Arch OF Processor IS
     SIGNAL ctrl_write_enable : STD_LOGIC;
     SIGNAL ctrl_mem_write : STD_LOGIC;
     SIGNAL ctrl_mem_read : STD_LOGIC;
+    SIGNAL ctrl_mem_to_reg : STD_LOGIC;
+    SIGNAL ctrl_alu_pass_through : STD_LOGIC;
     SIGNAL ctrl_alu_use_logical : STD_LOGIC;
     SIGNAL ctrl_alu_use_immediate : STD_LOGIC;
+    SIGNAL ctrl_sign_extend_immediate : STD_LOGIC;
 
-    -- decode/execute
+    -- decode/execute -- todo: put em in a bus
     SIGNAL de_write_address : REG_SELECTOR;
     SIGNAL de_write_enable : STD_LOGIC;
     SIGNAL de_read_data_1 : REG32;
     SIGNAL de_read_data_2 : REG32;
     SIGNAL de_mem_write : STD_LOGIC;
     SIGNAL de_mem_read : STD_LOGIC;
+    SIGNAL de_mem_to_reg : STD_LOGIC;
+    SIGNAL de_alu_pass_through : STD_LOGIC;
     SIGNAL de_alu_use_logical : STD_LOGIC;
     SIGNAL de_alu_use_immediate : STD_LOGIC;
     SIGNAL de_instr_opcode : OPCODE;
     SIGNAL de_instr_immediate : SIGNED(31 DOWNTO 0);
+
+    -- alu
+    SIGNAL alu_result : REG32;
+
+    -- execute/memory
+    SIGNAL em_write_address : REG_SELECTOR;
+    SIGNAL em_write_enable : STD_LOGIC;
+    SIGNAL em_mem_write_data : REG32;
+    SIGNAL em_mem_write : STD_LOGIC;
+    SIGNAL em_mem_read : STD_LOGIC;
+    SIGNAL em_mem_to_reg : STD_LOGIC;
+    SIGNAL em_alu_result : REG32;
+
+    -- data memory
+    SIGNAL dm_out : REG32;
+
+    -- write back
+    SIGNAL wb_write_enable : STD_LOGIC;
+    SIGNAL wb_write_address : REG_SELECTOR;
+    SIGNAL wb_write_data : REG32;
 
 BEGIN
     clkProcess : PROCESS -- Clock process
@@ -61,6 +86,13 @@ BEGIN
         WAIT FOR 50 ps;
         clk <= NOT clk;
     END PROCESS clkProcess;
+
+    -- rstProcess : PROCESS -- Reset process
+    -- BEGIN
+    --     reset <= '1';
+    --     WAIT FOR 50 ps;
+    --     reset <= '0';
+    -- END PROCESS rstProcess;
 
     -- pc
     programCounter : ENTITY mrk.PC
@@ -75,7 +107,7 @@ BEGIN
     instructionMemory : ENTITY mrk.Instruction_Memory
         PORT MAP(
             clk => clk,
-            reset => reset,
+            reset => '0', -- never
             pc => pc,
             data => im_instruction_memory_bus
         );
@@ -105,9 +137,9 @@ BEGIN
 
             -- input
 
-            write_enable_1 => '0',
-            write_addr_1 => (OTHERS => '0'), -- wb
-            write_data_1 => (OTHERS => '0'), -- wb
+            write_enable_1 => wb_write_enable,
+            write_addr_1 => wb_write_address, -- wb
+            write_data_1 => wb_write_data, -- wb
 
             write_enable_2 => '0',
             write_addr_2 => (OTHERS => '0'), -- wb
@@ -131,8 +163,11 @@ BEGIN
             write_enable => ctrl_write_enable,
             mem_write => ctrl_mem_write,
             mem_read => ctrl_mem_read,
+            mem_to_reg => ctrl_mem_to_reg,
+            alu_pass_through => ctrl_alu_pass_through,
             alu_use_logical => ctrl_alu_use_logical,
-            alu_use_immediate => ctrl_alu_use_immediate
+            alu_use_immediate => ctrl_alu_use_immediate,
+            sign_extend_immediate => ctrl_sign_extend_immediate
         );
 
     -- decode/execute
@@ -149,8 +184,12 @@ BEGIN
 
             mem_write => ctrl_mem_write,
             mem_read => ctrl_mem_read,
+            mem_to_reg => ctrl_mem_to_reg,
+
+            alu_pass_through => ctrl_alu_pass_through,
             alu_use_logical => ctrl_alu_use_logical,
             alu_use_immediate => ctrl_alu_use_immediate,
+            sign_extend_immediate => ctrl_sign_extend_immediate,
             instr_opcode => fd_fetched_instruction(4 DOWNTO 0),
             instr_immediate => fd_fetched_instruction(31 DOWNTO 16),
 
@@ -161,6 +200,8 @@ BEGIN
             out_read_data_2 => de_read_data_2,
             out_mem_write => de_mem_write,
             out_mem_read => de_mem_read,
+            out_mem_to_reg => de_mem_to_reg,
+            out_alu_pass_through => de_alu_pass_through,
             out_alu_use_logical => de_alu_use_logical,
             out_alu_use_immediate => de_alu_use_immediate,
             out_instr_opcode => de_instr_opcode,
@@ -175,10 +216,66 @@ BEGIN
             immediate => de_instr_immediate,
             opcode => de_instr_opcode,
 
+            ctrl_pass_through => de_alu_pass_through,
             ctrl_use_logic => de_alu_use_logical,
             ctrl_use_immediate => de_alu_use_immediate,
 
-            result => out_port
+            result => alu_result
+        );
+
+    -- execute/memory
+    executeMemory : ENTITY mrk.Execute_Memory
+        PORT MAP(
+            clk => clk,
+
+            write_address => de_write_address,
+            write_enable => de_write_enable,
+
+            mem_write_data => de_read_data_2,
+            mem_write => de_mem_write,
+            mem_read => de_mem_read,
+            mem_to_reg => de_mem_to_reg,
+
+            alu_result => alu_result,
+
+            -- output
+            out_write_address => em_write_address,
+            out_write_enable => em_write_enable,
+            out_mem_write_data => em_mem_write_data,
+            out_mem_write => em_mem_write,
+            out_mem_read => em_mem_read,
+            out_mem_to_reg => em_mem_to_reg,
+            out_alu_result => em_alu_result
+        );
+
+    -- memory
+    memory : ENTITY mrk.Data_Memory
+        PORT MAP(
+            clk => clk,
+            reset => reset,
+            address => em_alu_result,
+
+            write_enable => em_mem_write,
+            data_in => em_mem_write_data,
+
+            read_enable => em_mem_read,
+            data_out => dm_out
+        );
+
+    -- write back
+    memWriteBack : ENTITY mrk.Memory_WriteBack
+        PORT MAP(
+            clk => clk,
+
+            write_enable => em_write_enable,
+            write_address => em_write_address,
+            alu_result => em_alu_result,
+            mem_data => dm_out,
+            mem_to_reg => em_mem_to_reg,
+            
+            out_write_enable => wb_write_enable,
+            out_write_address => wb_write_address,
+            out_write_data => wb_write_data
         );
 
 END Processor_Arch;

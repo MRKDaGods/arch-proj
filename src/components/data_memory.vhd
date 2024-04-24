@@ -30,7 +30,7 @@ BEGIN
         -- reset memory
         IF reset = '1' THEN
             memory_arr <= (OTHERS => (OTHERS => '0'));
-        ELSIF rising_edge(clk) THEN
+        ELSIF falling_edge(clk) THEN
             -- store into memory LITTLE ENDIAN
             IF write_enable = '1' THEN
                 memory_arr(to_integer(unsigned(address))) <= data_in(15 DOWNTO 0);
