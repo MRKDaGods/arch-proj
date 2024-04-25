@@ -24,6 +24,9 @@ ARCHITECTURE Processor_Arch OF Processor IS
     -- pc
     SIGNAL pc : MEM_ADDRESS; -- 32 bit
 
+    -- sp
+    SIGNAL sp : MEM_ADDRESS := X"00000FFF"; -- 32 bit
+
     -- instruction memory
     SIGNAL im_instruction_memory_bus : MEM_CELL; -- 16 bit
 
@@ -103,7 +106,7 @@ BEGIN
     programCounter : ENTITY mrk.PC
         PORT MAP(
             clk => clk,
-            reset => reset,
+            reset => '0',
             extra_reads => opc_extra_reads,
             pcCounter => pc
         );
@@ -128,7 +131,7 @@ BEGIN
     fetchDecodeRegister : ENTITY mrk.Fetch_Decode
         PORT MAP(
             clk => clk,
-            reset => reset,
+            reset => '0',
             raw_instruction => im_instruction_memory_bus,
             extra_reads => opc_extra_reads,
             out_instruction => fd_fetched_instruction

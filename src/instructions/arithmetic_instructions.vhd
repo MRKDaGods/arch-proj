@@ -57,16 +57,17 @@ BEGIN
 
     -- set the flags
     carry_flag <= '1' WHEN
-        -- case: + +, result < either operand
-        (op_1(31) = '0' AND op_2(31) = '0' AND (unsigned(internal_result) < unsigned(op_1) OR unsigned(internal_result) < unsigned(op_2))) OR
-        -- case: + -, minuend < subtrahend
-        (op_1(31) = '0' AND op_2(31) = '1' AND unsigned(op_1) < unsigned(op_2)) OR
-        -- case: - +, result > first operand
-        (op_1(31) = '1' AND op_2(31) = '0' AND unsigned(internal_result) > unsigned(op_1))
-        ELSE
-        '0';
+    -- For addition: carry occurs if result is greater than or equal to 2^32
+    (opcode = OPCODE_ADD AND (internal_result(31) = '1')) OR
+    -- For subtraction: borrow occurs if minuend is smaller than subtrahend
+    ((opcode = OPCODE_SUB OR opcode = OPCODE_SUBI OR opcode = OPCODE_DEC) AND op_1 < abs(op_2)) ELSE
+    '0';
 
-    overflow_flag <= '1' WHEN (op_1(31) = op_2(31) AND op_1(31) /= internal_result(31)) ELSE
-        '0';
+    overflow_flag <= '1' WHEN
+    -- For signed overflow: sign of result differs from signs of operands
+    ((op_1(31) = op_2(31)) AND (op_1(31) /= internal_result(31))) ELSE
+    '0'; -- no overflow
+
+    --ya bronzeeeeee ya fashel 
 
 END Arithmetic_Instructions_Arch;
