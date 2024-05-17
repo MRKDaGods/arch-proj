@@ -23,7 +23,8 @@ ENTITY ALU IS
         -- ctrl_use_immediate : IN STD_LOGIC; -- use immediate value
         -- ctrl_update_flags : IN STD_LOGIC; -- update flags
 
-        result : OUT REG32 -- result
+        result : OUT REG32; -- result
+        flags : OUT STD_LOGIC_VECTOR(3 DOWNTO 0) -- flags
     );
 END ENTITY ALU;
 
@@ -96,5 +97,6 @@ BEGIN
         result_arithmetic;
 
     result <= internal_result;
+    flags <= Z & N & C & O;
 
 END ALU_Arch;

@@ -28,6 +28,8 @@ ENTITY Decode_Execute IS
         -- sp
         sp : IN SIGNED(31 DOWNTO 0);
 
+        flags : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+
         -- output
         out_signal_bus : OUT SIGBUS;
 
@@ -74,7 +76,8 @@ BEGIN
                 END IF;
             END IF;
 
-            IF instr_opcode = OPCODE_JMP THEN
+            -- check for jmp
+            IF signal_bus(SIGBUS_OP_JMP) = '1' OR (signal_bus(SIGBUS_OP_JZ) = '1' AND flags(3) = '1') THEN
                 enforcedPc <= read_data_1;
             ELSE
                 enforcedPc <= (OTHERS => '1');

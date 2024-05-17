@@ -56,6 +56,7 @@ ARCHITECTURE Processor_Arch OF Processor IS
 
     -- alu
     SIGNAL alu_result : REG32;
+    SIGNAL alu_flags : STD_LOGIC_VECTOR(3 DOWNTO 0);
 
     -- execute/memory
     SIGNAL em_signal_bus : SIGBUS;
@@ -179,6 +180,7 @@ BEGIN
             instr_immediate => fd_fetched_instruction(31 DOWNTO 16),
 
             sp => regf_sp,
+            flags => alu_flags,
 
             -- output
             out_signal_bus => de_signal_bus,
@@ -204,7 +206,8 @@ BEGIN
 
             signal_bus => de_signal_bus,
 
-            result => alu_result
+            result => alu_result,
+            flags => alu_flags
         );
 
     -- execute/memory

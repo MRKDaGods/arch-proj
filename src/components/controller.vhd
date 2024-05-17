@@ -104,10 +104,13 @@ BEGIN
         '1' WHEN OPCODE_LDM,
         '1' WHEN OPCODE_PUSH, -- pass through SP
         '1' WHEN OPCODE_POP, -- pass through SP
+        '1' WHEN OPCODE_JMP, -- pass through PC
+        '1' WHEN OPCODE_JZ, -- pass through PC
+        '1' WHEN OPCODE_CALL, -- pass through PC
         '0' WHEN OTHERS;
 
     -- when do we use immediate value as the second operand?
-    signal_bus(SIGBUS_ALU_USE_IMMEDIATE) <= 
+    signal_bus(SIGBUS_ALU_USE_IMMEDIATE) <=
     '1' WHEN reserved_bit = '1' OR signal_bus(SIGBUS_USE_SP) = '1' ELSE
     '0';
 
@@ -147,6 +150,11 @@ BEGIN
     signal_bus(SIGBUS_OP_PUSH) <= '1' WHEN opcode = OPCODE_PUSH ELSE
     '0';
     signal_bus(SIGBUS_OP_POP) <= '1' WHEN opcode = OPCODE_POP ELSE
+    '0';
+
+    signal_bus(SIGBUS_OP_JMP) <= '1' WHEN opcode = OPCODE_JMP ELSE
+    '0';
+    signal_bus(SIGBUS_OP_JZ) <= '1' WHEN opcode = OPCODE_JZ ELSE
     '0';
 
     out_signal_bus <= signal_bus;

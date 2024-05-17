@@ -13,7 +13,7 @@ ENTITY PC IS
         reset : IN STD_LOGIC;
         extra_reads : IN STD_LOGIC; -- from opcode checker, do we need to increment twice in 1 cycle?
         pcWait : IN STD_LOGIC; -- from FETCH, do we need to wait?
-        enforcedPc : IN MEM_ADDRESS; -- from DECODE, do we need to enforce PC?
+        enforcedPc : IN MEM_ADDRESS; -- from EXECUTE, do we need to enforce PC?
         pcCounter : OUT MEM_ADDRESS
     );
 END ENTITY PC;
