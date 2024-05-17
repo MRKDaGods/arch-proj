@@ -22,6 +22,7 @@ ENTITY Register_File IS
         write_addr_2 : IN REG_SELECTOR;
         write_data_2 : IN REG32;
 
+        opcode: IN OPCODE;
         -- two reads
         read_addr_1 : IN REG_SELECTOR;
         read_addr_2 : IN REG_SELECTOR;
@@ -34,18 +35,26 @@ END Register_File;
 ARCHITECTURE Register_File_Arch OF Register_File IS
     TYPE reg_array IS ARRAY (0 TO 7) OF REG32;
     SIGNAL regs : reg_array;
-
+    signal stack : REG32;
 BEGIN
     PROCESS (clk, reset)
     BEGIN
         IF reset = '1' THEN
             regs <= (OTHERS => (OTHERS => '0'));
+            stack <= (15 downto 0 => '0') & "111111111111";
         ELSIF rising_edge(clk) THEN
             -- should we write?
             IF write_enable_1 = '1' THEN
                 regs(to_integer(unsigned(write_addr_1))) <= write_data_1;
             END IF;
-
+            CASE opcode IS
+                WHEN OPCODE_PUSH =>
+                    stack <= stack - 1;
+                WHEN OPCODE_POP =>
+                    stack <= stack + 1;
+                WHEN OTHERS =>
+                    null; -- handle other opcodes if needed
+            END CASE;
             IF write_enable_2 = '1' THEN
                 regs(to_integer(unsigned(write_addr_2))) <= write_data_2;
             END IF;
