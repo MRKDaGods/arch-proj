@@ -38,6 +38,7 @@ ARCHITECTURE Processor_Arch OF Processor IS
 
     -- fetch/decode register
     SIGNAL fd_fetched_instruction : FETCHED_INSTRUCTION;
+    SIGNAL fd_pc_wait : STD_LOGIC := '0'; -- wait?
 
     -- register file
     SIGNAL regf_read_data_1 : REG32;
@@ -93,6 +94,7 @@ BEGIN
             clk => clk,
             reset => '0',
             extra_reads => opc_extra_reads,
+            pcWait => fd_pc_wait,
             pcCounter => pc
         );
 
@@ -116,9 +118,10 @@ BEGIN
     fetchDecodeRegister : ENTITY mrk.Fetch_Decode
         PORT MAP(
             clk => clk,
-            reset => '0',
+            reset => reset,
             raw_instruction => im_instruction_memory_bus,
             extra_reads => opc_extra_reads,
+            pc_wait => fd_pc_wait,
             out_instruction => fd_fetched_instruction
         );
 
@@ -246,7 +249,7 @@ BEGIN
             out_write_data => wb_write_data
         );
 
-        
+
     -- output port
     out_port <= out_port_buffer;
 
