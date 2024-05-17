@@ -53,6 +53,7 @@ ARCHITECTURE Processor_Arch OF Processor IS
     SIGNAL de_instr_opcode : OPCODE;
     SIGNAL de_instr_immediate : SIGNED(31 DOWNTO 0);
     SIGNAL de_enforcedPc : MEM_ADDRESS := (OTHERS => '1');
+    SIGNAL de_flush : STD_LOGIC := '0'; -- flush?
 
     -- alu
     SIGNAL alu_result : REG32;
@@ -120,6 +121,7 @@ BEGIN
         PORT MAP(
             clk => clk,
             reset => reset,
+            flush => de_flush,
             raw_instruction => im_instruction_memory_bus,
             extra_reads => opc_extra_reads,
             pc_wait => fd_pc_wait,
@@ -193,7 +195,8 @@ BEGIN
             out_instr_immediate => de_instr_immediate,
 
             out_port => out_port_buffer,
-            out_enforcedPc => de_enforcedPc
+            out_enforcedPc => de_enforcedPc,
+            flush => de_flush
         );
 
     -- alu

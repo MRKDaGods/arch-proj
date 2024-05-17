@@ -45,7 +45,9 @@ ENTITY Decode_Execute IS
 
         out_port : OUT REG32; -- output port
 
-        out_enforcedPc : OUT MEM_ADDRESS
+        out_enforcedPc : OUT MEM_ADDRESS;
+
+        flush : OUT STD_LOGIC
     );
 END Decode_Execute;
 
@@ -79,6 +81,7 @@ BEGIN
             -- check for jmp
             IF signal_bus(SIGBUS_OP_JMP) = '1' OR (signal_bus(SIGBUS_OP_JZ) = '1' AND flags(3) = '1') THEN
                 enforcedPc <= read_data_1;
+                flush <= '1';
             ELSE
                 enforcedPc <= (OTHERS => '1');
             END IF;
@@ -87,6 +90,8 @@ BEGIN
             IF instr_opcode = OPCODE_OUT THEN
                 out_port <= read_data_1;
             END IF;
+        ELSIF falling_edge(clk) THEN
+            flush <= '0';
         END IF;
     END PROCESS;
 

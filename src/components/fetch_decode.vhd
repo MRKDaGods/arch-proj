@@ -11,6 +11,7 @@ ENTITY Fetch_Decode IS
     PORT (
         clk : IN STD_LOGIC;
         reset : IN STD_LOGIC;
+        flush : IN STD_LOGIC; -- flush the pipeline
         raw_instruction : IN MEM_CELL; -- 16 bit from instr mem
         extra_reads : IN STD_LOGIC; -- from opcode checker
 
@@ -29,7 +30,7 @@ BEGIN
         VARIABLE is_swap_buffer : BOOLEAN := FALSE; -- is this a swap buffer?
     BEGIN
 
-        IF reset = '1' THEN
+        IF reset = '1' OR flush = '1' THEN
             out_instruction <= (OTHERS => '0');
             instruction_buffer := (OTHERS => '0');
             has_buffer := FALSE;
