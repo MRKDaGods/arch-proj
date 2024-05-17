@@ -11,11 +11,12 @@ ENTITY Memory_WriteBack IS
     PORT (
         clk : IN STD_LOGIC;
 
-        write_enable : IN STD_LOGIC;
+        -- Inputs
+        signal_bus : IN SIGBUS;
+
         write_address : IN REG_SELECTOR;
         alu_result : IN REG32;
         mem_data : IN REG32;
-        mem_to_reg : IN STD_LOGIC;
 
         -- Outputs
         out_write_enable : OUT STD_LOGIC;
@@ -29,10 +30,10 @@ BEGIN
     PROCESS (clk)
     BEGIN
         IF rising_edge(clk) THEN
-            out_write_enable <= write_enable;
+            out_write_enable <= signal_bus(SIGBUS_WRITE_ENABLE);
             out_write_address <= write_address;
 
-            IF mem_to_reg = '1' THEN
+            IF signal_bus(SIGBUS_MEM_TO_REG) = '1' THEN
                 out_write_data <= mem_data;
             ELSE
                 out_write_data <= alu_result;
