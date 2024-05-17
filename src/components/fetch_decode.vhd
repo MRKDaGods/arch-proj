@@ -73,7 +73,14 @@ BEGIN
                     has_buffer := TRUE;
                     is_swap_buffer := TRUE;
                 ELSE
+                    -- IF raw_instruction(4 DOWNTO 0) = OPCODE_JMP THEN
+                    --     pc_wait <= '1';
+                    -- ELSE
+                    --     pc_wait <= '0';
+                    -- END IF;
+
                     pc_wait <= '0';
+
                     out_instruction <= (15 DOWNTO 0 => '0') & raw_instruction;
                 END IF;
 

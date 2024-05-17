@@ -31,9 +31,16 @@ BEGIN
     BEGIN
         IF rising_edge(clk) THEN
             out_signal_bus <= signal_bus;
-            out_write_address <= write_address;
+            out_write_address <= write_address; -- wb
             out_mem_write_data <= mem_write_data;
-            out_alu_result <= alu_result;
+
+            IF signal_bus(SIGBUS_OP_PUSH) = '1' THEN
+                out_alu_result <= std_logic_vector(unsigned(alu_result) - 1);
+            ELSIF signal_bus(SIGBUS_OP_POP) = '1' THEN
+                out_alu_result <= std_logic_vector(unsigned(alu_result) + 1);
+            ELSE
+                out_alu_result <= alu_result; -- used for mem addr
+            END IF;
         END IF;
     END PROCESS;
 END Execute_Memory_Arch;

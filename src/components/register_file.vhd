@@ -26,8 +26,14 @@ ENTITY Register_File IS
         read_addr_1 : IN REG_SELECTOR;
         read_addr_2 : IN REG_SELECTOR;
 
+        -- sp related
+        signal_bus : IN SIGBUS;
+
         read_data_1 : OUT REG32;
-        read_data_2 : OUT REG32
+        read_data_2 : OUT REG32;
+
+        -- stack pointer
+        out_sp : OUT SIGNED(31 DOWNTO 0)
     );
 END Register_File;
 
@@ -35,12 +41,25 @@ ARCHITECTURE Register_File_Arch OF Register_File IS
     TYPE reg_array IS ARRAY (0 TO 7) OF REG32;
     SIGNAL regs : reg_array;
 
+    SIGNAL sp : SIGNED(31 DOWNTO 0) := to_signed(4095, 32);
+
 BEGIN
     PROCESS (clk, reset)
     BEGIN
         IF reset = '1' THEN
             regs <= (OTHERS => (OTHERS => '0'));
+            sp <= to_signed(4095, sp'length);
         ELSIF rising_edge(clk) THEN
+            -- stack pointer update
+            IF signal_bus(SIGBUS_OP_PUSH) = '1' THEN
+                sp <= sp - 2; -- 2 words
+            END IF;
+
+            IF signal_bus(SIGBUS_OP_POP) = '1' THEN
+                sp <= sp + 2; -- 2 words
+            END IF;
+
+        ELSIF falling_edge(clk) THEN
             -- should we write?
             IF write_enable_1 = '1' THEN
                 regs(to_integer(unsigned(write_addr_1))) <= write_data_1;
@@ -54,5 +73,7 @@ BEGIN
 
     read_data_1 <= regs(to_integer(unsigned(read_addr_1)));
     read_data_2 <= regs(to_integer(unsigned(read_addr_2)));
+
+    out_sp <= sp;
 
 END Register_File_Arch;

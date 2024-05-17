@@ -24,9 +24,6 @@ ARCHITECTURE Processor_Arch OF Processor IS
     -- pc
     SIGNAL pc : MEM_ADDRESS; -- 32 bit
 
-    -- sp
-    SIGNAL sp : MEM_ADDRESS := X"00000FFF"; -- 32 bit
-
     -- output port buffer
     SIGNAL out_port_buffer : REG32 := (OTHERS => '0');
 
@@ -43,6 +40,7 @@ ARCHITECTURE Processor_Arch OF Processor IS
     -- register file
     SIGNAL regf_read_data_1 : REG32;
     SIGNAL regf_read_data_2 : REG32;
+    SIGNAL regf_sp : SIGNED(31 DOWNTO 0);
 
     -- control unit
     SIGNAL ctrl_signal_bus : SIGBUS;
@@ -54,6 +52,7 @@ ARCHITECTURE Processor_Arch OF Processor IS
     SIGNAL de_read_data_2 : REG32;
     SIGNAL de_instr_opcode : OPCODE;
     SIGNAL de_instr_immediate : SIGNED(31 DOWNTO 0);
+    SIGNAL de_enforcedPc : MEM_ADDRESS := (OTHERS => '1');
 
     -- alu
     SIGNAL alu_result : REG32;
@@ -95,6 +94,7 @@ BEGIN
             reset => '0',
             extra_reads => opc_extra_reads,
             pcWait => fd_pc_wait,
+            enforcedPc => de_enforcedPc,
             pcCounter => pc
         );
 
@@ -144,9 +144,12 @@ BEGIN
             read_addr_1 => fd_fetched_instruction(7 DOWNTO 5), -- src1
             read_addr_2 => fd_fetched_instruction(10 DOWNTO 8), -- src2
 
+            signal_bus => ctrl_signal_bus,
+
             -- output
             read_data_1 => regf_read_data_1,
-            read_data_2 => regf_read_data_2
+            read_data_2 => regf_read_data_2,
+            out_sp => regf_sp
         );
 
     -- control unit
@@ -175,6 +178,8 @@ BEGIN
             instr_opcode => fd_fetched_instruction(4 DOWNTO 0),
             instr_immediate => fd_fetched_instruction(31 DOWNTO 16),
 
+            sp => regf_sp,
+
             -- output
             out_signal_bus => de_signal_bus,
 
@@ -185,7 +190,8 @@ BEGIN
             out_instr_opcode => de_instr_opcode,
             out_instr_immediate => de_instr_immediate,
 
-            out_port => out_port_buffer
+            out_port => out_port_buffer,
+            out_enforcedPc => de_enforcedPc
         );
 
     -- alu

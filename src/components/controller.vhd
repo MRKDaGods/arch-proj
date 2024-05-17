@@ -102,10 +102,14 @@ BEGIN
         '1' WHEN OPCODE_MOV,
         '1' WHEN OPCODE_SWAP,
         '1' WHEN OPCODE_LDM,
+        '1' WHEN OPCODE_PUSH, -- pass through SP
+        '1' WHEN OPCODE_POP, -- pass through SP
         '0' WHEN OTHERS;
 
     -- when do we use immediate value as the second operand?
-    signal_bus(SIGBUS_ALU_USE_IMMEDIATE) <= reserved_bit;
+    signal_bus(SIGBUS_ALU_USE_IMMEDIATE) <= 
+    '1' WHEN reserved_bit = '1' OR signal_bus(SIGBUS_USE_SP) = '1' ELSE
+    '0';
 
     -- when do we need to update flags? (to optimize, do we need all these with select?)
     WITH opcode SELECT
@@ -130,6 +134,20 @@ BEGIN
         '1' WHEN OPCODE_IN,
         '1' WHEN OPCODE_OUT,
         '0' WHEN OTHERS;
+
+    -- when do we use SP?
+
+    -- sp signals
+    WITH opcode SELECT
+        signal_bus(SIGBUS_USE_SP) <=
+        '1' WHEN OPCODE_PUSH,
+        '1' WHEN OPCODE_POP,
+        '0' WHEN OTHERS;
+
+    signal_bus(SIGBUS_OP_PUSH) <= '1' WHEN opcode = OPCODE_PUSH ELSE
+    '0';
+    signal_bus(SIGBUS_OP_POP) <= '1' WHEN opcode = OPCODE_POP ELSE
+    '0';
 
     out_signal_bus <= signal_bus;
 
