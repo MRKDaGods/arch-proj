@@ -15,7 +15,7 @@ ENTITY exption IS
     );
 end exption;
 
-ARCHITECTURE exption OF exption IS
+ARCHITECTURE architecture_exeption OF exption IS
 BEGIN
     PROCESS (access_exeption, overflow_exeption)
     BEGIN
@@ -29,7 +29,7 @@ BEGIN
             Restor_data <= '0';
         END IF;
     END PROCESS;
-END exption;
+END architecture_exeption;
 
 
 
