@@ -8,6 +8,7 @@ USE MRK.COMMON.ALL;
 
 entity hazard_detection is
     PORT(
+	        Clk:In STD_Logic;
         --first haazarf
             write_enable1 : IN STD_LOGIC;--f/D
             write_enable2 : IN STD_LOGIC;--f/D
@@ -30,7 +31,7 @@ END entity hazard_detection;
 ARCHITECTURE behavior OF hazard_detection IS
 
 BEGIN
-    PROCESS(rising_edge(clk))
+    PROCESS(Clk)
     BEGIN
         IF write_enable1 = '1' AND write_address1 = write_back_address THEN
         hazard_detected <= '1';
@@ -44,19 +45,25 @@ BEGIN
         else
             hazard_detected <= '0';
         END IF;
-        if (read_address1 = Register_distnatin OR read_address2 = Register_distnatin OR read_address1 =write_back_address OR read_address2=write_back_address ) AND (opcode=OPCODE_LDM OR opcode = OPCODE_LDD OR opcode = OPCODE_POP) then
+        if (read_address1 = Register_distnatin OR read_address2 = Register_distnatin ) AND (opcode=OPCODE_LDM OR opcode = OPCODE_LDD OR opcode = OPCODE_POP) then
             hazard_detected <= '1';
-            --FULLFORWARDING
+            --nop
+        elsif read_address1 = Register_distnatin OR read_address2 = Register_distnatin OR write_back_address = read_address2 OR write_back_address = read_address1 then
+            hazard_detected <= '1';
+            --forward
         else
             hazard_detected <= '0';
+            
         end if ;
+
+        
         if opcode =OPCODE_JMP OR opcode = OPCODE_CALL OR opcode = OPCODE_JZ OR opcode = OPCODE_RET OR opcode = OPCODE_RTI then
             hazard_detected <= '1';
             --FLUSH
         else
             hazard_detected <= '0';
         end if;
-        
-END PROCESS;
+    
+END process;
 
 end ARCHITECTURE behavior;

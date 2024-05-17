@@ -28,14 +28,15 @@ architecture forwarding_unit_arch of forwarding_unit is
 begin
     process(data_to_be_forwarded, destination_register, data_to_be_forwarded_wb, destination_register_wb, refister_sourse1, refister_sourse2)
     begin
-        if destination_register_wb = refister_sourse1 and opcode = 7aga b twrite fe reg then
-            data_forwarded_out1<=data_to_be_forwarded_wb;
-        elsif destination_register_wb = refister_sourse2 and opcode = 7aga b twrite fe reg  then
-            data_forwarded_out2<=data_to_be_forwarded_wb;
-        elsif destination_register = refister_sourse1 and opcode = 7aga b twrite fe reg  then
+        if destination_register = refister_sourse1 and opcode = 7aga b twrite fe reg then
             data_forwarded_out1<=data_to_be_forwarded;
+        elsif destination_register = refister_sourse2 and opcode = 7aga b twrite fe reg  then
+            data_forwarded_out2<=data_to_be_forwarded;
+        elsif destination_register_wb = refister_sourse1 and opcode = 7aga b twrite fe reg  then
+            
+            data_forwarded_out1<=data_to_be_forwarded_wb;
         else
-        data_forwarded_out2<=data_to_be_forwarded;
+            data_forwarded_out2<=data_to_be_forwarded_wb;
         end if;
     end process;
 end forwarding_unit_arch;
