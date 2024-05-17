@@ -54,7 +54,7 @@ R12
 R13
 R14
 Earithmetic_instructions
-Z15 w1714020267
+Z15 w1714040138
 R1
 R2
 R3
@@ -68,9 +68,9 @@ VN1oSEdhiVQYLoadl@<GX83
 !s100 7j4[9ZkCL3E:B@nc^P97P3
 R8
 32
-Z18 !s110 1714020280
+Z18 !s110 1715902004
 !i10b 1
-Z19 !s108 1714020280.000000
+Z19 !s108 1715902003.000000
 Z20 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/CUFE/arch-proj/src/instructions/arithmetic_instructions.vhd|
 Z21 !s107 D:/CUFE/arch-proj/src/instructions/arithmetic_instructions.vhd|
 !i113 1
@@ -612,7 +612,7 @@ R87
 R42
 R14
 Eprocessor
-Z88 w1714021643
+Z88 w1715903132
 R1
 R2
 R3
@@ -626,9 +626,9 @@ V]Hl5Og6j_SRYfMb@>mZ^C1
 !s100 ?I<Tf5<Vz9ChgGBJk6iDJ0
 R8
 33
-Z91 !s110 1714021648
+Z91 !s110 1715904076
 !i10b 1
-Z92 !s108 1714021648.000000
+Z92 !s108 1715904076.000000
 Z93 !s90 -reportprogress|300|-work|work|-2008|-explicit|-stats=none|D:/CUFE/arch-proj/src/components/processor.vhd|
 Z94 !s107 D:/CUFE/arch-proj/src/components/processor.vhd|
 !i113 1
@@ -653,8 +653,8 @@ R4
 Z106 DEx4 work 9 processor 0 22 ]Hl5Og6j_SRYfMb@>mZ^C1
 l89
 L20
-Z107 VF5P^X[D5aLzcX_Q]6CfPE3
-Z108 !s100 I49fe0d<8O;RZeIIJPT<31
+Z107 VF]4TCGbRWJ4zATd0:Y8Q>1
+Z108 !s100 _dETnV3;`=Iegh6nVMnHf1
 R8
 33
 R91

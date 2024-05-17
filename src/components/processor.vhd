@@ -141,7 +141,7 @@ BEGIN
     registerFile : ENTITY mrk.Register_File
         PORT MAP(
             clk => clk,
-            reset => reset,
+            reset => '0', -- override
 
             -- input
 
@@ -264,7 +264,7 @@ BEGIN
     memory : ENTITY mrk.Data_Memory
         PORT MAP(
             clk => clk,
-            reset => reset,
+            reset => '0', -- override
             address => em_alu_result,
 
             write_enable => em_mem_write,
