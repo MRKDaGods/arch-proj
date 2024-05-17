@@ -15,11 +15,13 @@ ENTITY ALU IS
 
         opcode : IN OPCODE; -- opcode
 
+        signal_bus : IN SIGBUS; -- signal bus
+
         -- control signals
-        ctrl_pass_through : IN STD_LOGIC; -- pass through
-        ctrl_use_logic : IN STD_LOGIC; -- logic or arithmetic operation
-        ctrl_use_immediate : IN STD_LOGIC; -- use immediate value
-        ctrl_update_flags : IN STD_LOGIC; -- update flags
+        -- ctrl_pass_through : IN STD_LOGIC; -- pass through
+        -- ctrl_use_logic : IN STD_LOGIC; -- logic or arithmetic operation
+        -- ctrl_use_immediate : IN STD_LOGIC; -- use immediate value
+        -- ctrl_update_flags : IN STD_LOGIC; -- update flags
 
         result : OUT REG32 -- result
     );
@@ -41,9 +43,9 @@ ARCHITECTURE ALU_Arch OF ALU IS
 
 BEGIN
 
-    flagsProcess : PROCESS (ctrl_update_flags, internal_result)
+    flagsProcess : PROCESS (signal_bus(SIGBUS_ALU_UPDATE_FLAGS), internal_result)
     BEGIN
-        IF ctrl_update_flags = '1' THEN
+        IF signal_bus(SIGBUS_ALU_UPDATE_FLAGS) = '1' THEN
             -- update zero flag regardless
             IF internal_result = (31 DOWNTO 0 => '0') THEN
                 Z <= '1';
@@ -55,7 +57,7 @@ BEGIN
             N <= internal_result(31);
 
             -- only update carry and overflow flags if not using logic
-            IF ctrl_use_logic = '0' AND opcode /= OPCODE_CMP THEN
+            IF signal_bus(SIGBUS_ALU_USE_LOGICAL) = '0' AND opcode /= OPCODE_CMP THEN
                 -- update flags
                 C <= arithmetic_carry_flag;
                 O <= arithmetic_overflow_flag;
@@ -72,7 +74,7 @@ BEGIN
         );
 
     arithmetic_op_2 <=
-        immediate WHEN ctrl_use_immediate = '1' ELSE
+        immediate WHEN signal_bus(SIGBUS_ALU_USE_IMMEDIATE) = '1' ELSE
         SIGNED(operand_2);
 
     arithmetic : ENTITY mrk.Arithmetic_Instructions PORT MAP (
@@ -85,12 +87,12 @@ BEGIN
         );
 
     -- op1 will pass through if ctrl_use_immediate is not set
-    pass_through_operand <= STD_LOGIC_VECTOR(immediate) WHEN ctrl_use_immediate = '1' ELSE
+    pass_through_operand <= STD_LOGIC_VECTOR(immediate) WHEN signal_bus(SIGBUS_ALU_USE_IMMEDIATE) = '1' ELSE
         operand_1;
 
     -- to use within process
-    internal_result <= pass_through_operand WHEN ctrl_pass_through = '1' ELSE
-        result_logical WHEN ctrl_use_logic = '1' ELSE
+    internal_result <= pass_through_operand WHEN signal_bus(SIGBUS_ALU_PASS_THROUGH) = '1' ELSE
+        result_logical WHEN signal_bus(SIGBUS_ALU_USE_LOGICAL) = '1' ELSE
         result_arithmetic;
 
     result <= internal_result;

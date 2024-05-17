@@ -12,28 +12,33 @@ ENTITY Controller IS
         opcode : IN OPCODE; -- instruction opcode
         reserved_bit : IN STD_LOGIC; -- reserved bit in the instruction
 
-        write_enable : OUT STD_LOGIC; -- should we write in a register?
-        mem_write : OUT STD_LOGIC; -- should we write in memory?
-        mem_read : OUT STD_LOGIC; -- should we read from memory?
+        -- write_enable : OUT STD_LOGIC; -- should we write in a register?
+        -- mem_write : OUT STD_LOGIC; -- should we write in memory?
+        -- mem_read : OUT STD_LOGIC; -- should we read from memory?
 
-        mem_to_reg : OUT STD_LOGIC; -- should we write memory data to register?
+        -- mem_to_reg : OUT STD_LOGIC; -- should we write memory data to register?
 
-        -- some alu signals
-        alu_pass_through : OUT STD_LOGIC; -- should we use the alu? (or just pass the data)
-        alu_use_logical : OUT STD_LOGIC; -- logical or arithmetic operation?
-        alu_use_immediate : OUT STD_LOGIC; -- is the second operand an immediate value?
-        alu_update_flags : OUT STD_LOGIC; -- should we update flags?
+        -- use_io : OUT STD_LOGIC; -- should we use IO? (IN/OUT instructions)
 
-        sign_extend_immediate : OUT STD_LOGIC -- should we sign extend the immediate value?
+        -- -- some alu signals
+        -- alu_pass_through : OUT STD_LOGIC; -- should we use the alu? (or just pass the data)
+        -- alu_use_logical : OUT STD_LOGIC; -- logical or arithmetic operation?
+        -- alu_use_immediate : OUT STD_LOGIC; -- is the second operand an immediate value?
+        -- alu_update_flags : OUT STD_LOGIC; -- should we update flags?
+
+        -- sign_extend_immediate : OUT STD_LOGIC -- should we sign extend the immediate value?
+
+        out_signal_bus : OUT SIGBUS -- output signal bus
     );
 END ENTITY Controller;
 
 ARCHITECTURE Controller_Arch OF Controller IS
+    SIGNAL signal_Bus : SIGBUS := (OTHERS => '0');
 BEGIN
 
     -- when do we write to registers?
     WITH opcode SELECT
-        write_enable <=
+        signal_Bus(SIGBUS_WRITE_ENABLE) <=
         '0' WHEN OPCODE_NOP,
         '0' WHEN OPCODE_OUT,
         '0' WHEN OPCODE_PROTECT,
@@ -52,7 +57,7 @@ BEGIN
 
     -- when do we write to memory?
     WITH opcode SELECT
-        mem_write <=
+        signal_Bus(SIGBUS_MEM_WRITE) <=
         '1' WHEN OPCODE_PUSH,
         '1' WHEN OPCODE_STD,
         '1' WHEN OPCODE_CALL,
@@ -61,7 +66,7 @@ BEGIN
 
     -- when do we read from memory?
     WITH opcode SELECT
-        mem_read <=
+        signal_Bus(SIGBUS_MEM_READ) <=
         '1' WHEN OPCODE_POP,
         '1' WHEN OPCODE_LDD,
         '1' WHEN OPCODE_RET,
@@ -70,7 +75,7 @@ BEGIN
 
     -- when do we use logical alu?
     WITH opcode SELECT
-        alu_use_logical <=
+        signal_bus(SIGBUS_ALU_USE_LOGICAL) <=
         '1' WHEN OPCODE_NOT,
         '1' WHEN OPCODE_AND,
         '1' WHEN OPCODE_OR,
@@ -79,32 +84,36 @@ BEGIN
 
     -- when do we write memory data to register?
     WITH opcode SELECT
-        mem_to_reg <=
+        signal_bus(SIGBUS_MEM_TO_REG) <=
         '1' WHEN OPCODE_POP,
         '1' WHEN OPCODE_LDD,
         '0' WHEN OTHERS;
 
-    -- when do we sign extend the immediate value?
+    -- when do we sign extend the immediate value? (OR GATE HERE?)
     WITH opcode SELECT
-        sign_extend_immediate <=
+        signal_bus(SIGBUS_SIGN_EXTEND_IMMEDIATE) <=
         '1' WHEN OPCODE_STD,
         '1' WHEN OPCODE_LDD,
         '0' WHEN OTHERS;
 
     -- when do we pass the data through ALU? (for write enabled instructions)
     WITH opcode SELECT
-        alu_pass_through <=
+        signal_bus(SIGBUS_ALU_PASS_THROUGH) <=
         '1' WHEN OPCODE_MOV,
         '1' WHEN OPCODE_SWAP,
         '1' WHEN OPCODE_LDM,
+        '1' WHEN OPCODE_PUSH, -- pass through SP
+        '1' WHEN OPCODE_POP, -- pass through SP
         '0' WHEN OTHERS;
 
     -- when do we use immediate value as the second operand?
-    alu_use_immediate <= reserved_bit;
+    signal_bus(SIGBUS_ALU_USE_IMMEDIATE) <= 
+    '1' WHEN reserved_bit = '1' OR signal_bus(SIGBUS_USE_SP) = '1' ELSE
+    '0';
 
     -- when do we need to update flags? (to optimize, do we need all these with select?)
     WITH opcode SELECT
-        alu_update_flags <=
+        signal_bus(SIGBUS_ALU_UPDATE_FLAGS) <=
         '1' WHEN OPCODE_NOT,
         '1' WHEN OPCODE_AND,
         '1' WHEN OPCODE_OR,
@@ -118,5 +127,28 @@ BEGIN
         '1' WHEN OPCODE_INC,
         '1' WHEN OPCODE_DEC,
         '0' WHEN OTHERS;
+
+    -- when do we use IO?
+    WITH opcode SELECT
+        signal_bus(SIGBUS_USE_IO) <=
+        '1' WHEN OPCODE_IN,
+        '1' WHEN OPCODE_OUT,
+        '0' WHEN OTHERS;
+
+    -- when do we use SP?
+
+    -- sp signals
+    WITH opcode SELECT
+        signal_bus(SIGBUS_USE_SP) <=
+        '1' WHEN OPCODE_PUSH,
+        '1' WHEN OPCODE_POP,
+        '0' WHEN OTHERS;
+
+    signal_bus(SIGBUS_OP_PUSH) <= '1' WHEN opcode = OPCODE_PUSH ELSE
+    '0';
+    signal_bus(SIGBUS_OP_POP) <= '1' WHEN opcode = OPCODE_POP ELSE
+    '0';
+
+    out_signal_bus <= signal_bus;
 
 END Controller_Arch;
