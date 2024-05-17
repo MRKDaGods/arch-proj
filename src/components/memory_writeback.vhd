@@ -17,6 +17,7 @@ ENTITY Memory_WriteBack IS
         write_address : IN REG_SELECTOR;
         alu_result : IN REG32;
         mem_data : IN REG32;
+        in_port : IN REG32;
 
         -- Outputs
         out_write_enable : OUT STD_LOGIC;
@@ -35,10 +36,12 @@ BEGIN
 
             IF signal_bus(SIGBUS_MEM_TO_REG) = '1' THEN
                 out_write_data <= mem_data;
+            ELSIF signal_bus(SIGBUS_USE_IO) = '1' THEN
+                out_write_data <= in_port; -- IN instruction
             ELSE
                 out_write_data <= alu_result;
             END IF;
-            
+
         END IF;
     END PROCESS;
 

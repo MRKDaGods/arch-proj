@@ -34,7 +34,9 @@ ENTITY Decode_Execute IS
         out_read_data_2 : OUT REG32;
 
         out_instr_opcode : OUT OPCODE;
-        out_instr_immediate : OUT SIGNED(31 DOWNTO 0) -- sign extended if needed
+        out_instr_immediate : OUT SIGNED(31 DOWNTO 0); -- sign extended if needed
+
+        out_port : OUT REG32 -- output port
     );
 END Decode_Execute;
 
@@ -57,6 +59,11 @@ BEGIN
                 out_instr_immediate <= resize(signed(instr_immediate), 32);
             ELSE
                 out_instr_immediate <= signed(resize(unsigned(instr_immediate), 32));
+            END IF;
+
+            -- out instruction
+            IF instr_opcode = OPCODE_OUT THEN
+                out_port <= read_data_1;
             END IF;
         END IF;
     END PROCESS;

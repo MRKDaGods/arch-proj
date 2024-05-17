@@ -27,6 +27,9 @@ ARCHITECTURE Processor_Arch OF Processor IS
     -- sp
     SIGNAL sp : MEM_ADDRESS := X"00000FFF"; -- 32 bit
 
+    -- output port buffer
+    SIGNAL out_port_buffer : REG32 := (OTHERS => '0');
+
     -- instruction memory
     SIGNAL im_instruction_memory_bus : MEM_CELL; -- 16 bit
 
@@ -177,7 +180,9 @@ BEGIN
             out_read_data_2 => de_read_data_2,
 
             out_instr_opcode => de_instr_opcode,
-            out_instr_immediate => de_instr_immediate
+            out_instr_immediate => de_instr_immediate,
+
+            out_port => out_port_buffer
         );
 
     -- alu
@@ -234,10 +239,15 @@ BEGIN
             write_address => em_write_address,
             alu_result => em_alu_result,
             mem_data => dm_out,
+            in_port => in_port,
 
             out_write_enable => wb_write_enable,
             out_write_address => wb_write_address,
             out_write_data => wb_write_data
         );
+
+        
+    -- output port
+    out_port <= out_port_buffer;
 
 END Processor_Arch;

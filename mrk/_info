@@ -204,7 +204,7 @@ R32
 R13
 R14
 Edecode_execute
-Z33 w1715911678
+Z33 w1715914248
 R1
 R2
 R3
@@ -214,47 +214,47 @@ Z34 8D:/CUFE/arch-proj/src/components/decode_execute.vhd
 Z35 FD:/CUFE/arch-proj/src/components/decode_execute.vhd
 l0
 L10
-V10mfQ4V3CJJKS4]aZ6Y^:0
-!s100 NSS<Llk1^>V:CQ@HNoO@21
+V8KOF=hT@5nIB73_OfW[nf1
+!s100 :JJDA6mabBYo3<d`<J=ma1
 R8
 33
-R9
+Z36 !s110 1715914387
 !i10b 1
-R10
-Z36 !s90 -reportprogress|300|-work|work|-2008|-explicit|-stats=none|D:/CUFE/arch-proj/src/components/decode_execute.vhd|
-Z37 !s107 D:/CUFE/arch-proj/src/components/decode_execute.vhd|
+Z37 !s108 1715914387.000000
+Z38 !s90 -reportprogress|300|-work|work|-2008|-explicit|-stats=none|D:/CUFE/arch-proj/src/components/decode_execute.vhd|
+Z39 !s107 D:/CUFE/arch-proj/src/components/decode_execute.vhd|
 !i113 1
-Z38 o-work work -2008 -explicit
+Z40 o-work work -2008 -explicit
 R14
 Adecode_execute_arch
 R1
 R2
 R3
 R4
-DEx4 work 14 decode_execute 0 22 10mfQ4V3CJJKS4]aZ6Y^:0
-l42
-L41
-V^Q5HBH=Fmm?mBW4f7PjR63
-!s100 31GLXm0?G;eLmmo3Tm2ZU2
+DEx4 work 14 decode_execute 0 22 8KOF=hT@5nIB73_OfW[nf1
+l44
+L43
+V@V[hGW]I7eoj5DZT2WDKQ1
+!s100 _nm2j:0DW?_]2@FfHTKLX0
 R8
 33
-R9
-!i10b 1
-R10
 R36
+!i10b 1
 R37
-!i113 1
 R38
+R39
+!i113 1
+R40
 R14
 Eexecute_memory
-Z39 w1715911065
+Z41 w1715911065
 R1
 R2
 R3
 R4
 R5
-Z40 8D:/CUFE/arch-proj/src/components/execute_memory.vhd
-Z41 FD:/CUFE/arch-proj/src/components/execute_memory.vhd
+Z42 8D:/CUFE/arch-proj/src/components/execute_memory.vhd
+Z43 FD:/CUFE/arch-proj/src/components/execute_memory.vhd
 l0
 L10
 VW5A_S:VnBLGWo>hOfZ[Em2
@@ -264,8 +264,8 @@ R8
 R9
 !i10b 1
 R10
-Z42 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/CUFE/arch-proj/src/components/execute_memory.vhd|
-Z43 !s107 D:/CUFE/arch-proj/src/components/execute_memory.vhd|
+Z44 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/CUFE/arch-proj/src/components/execute_memory.vhd|
+Z45 !s107 D:/CUFE/arch-proj/src/components/execute_memory.vhd|
 !i113 1
 R13
 R14
@@ -284,20 +284,20 @@ R8
 R9
 !i10b 1
 R10
-R42
-R43
+R44
+R45
 !i113 1
 R13
 R14
 Efetch_decode
-Z44 w1713971498
+Z46 w1713971498
 R1
 R2
 R3
 R4
 R5
-Z45 8D:/CUFE/arch-proj/src/components/fetch_decode.vhd
-Z46 FD:/CUFE/arch-proj/src/components/fetch_decode.vhd
+Z47 8D:/CUFE/arch-proj/src/components/fetch_decode.vhd
+Z48 FD:/CUFE/arch-proj/src/components/fetch_decode.vhd
 l0
 L10
 VE5BFLF:E>NbPA1^BVD7<n0
@@ -307,8 +307,8 @@ R8
 R20
 !i10b 1
 R21
-Z47 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/CUFE/arch-proj/src/components/fetch_decode.vhd|
-Z48 !s107 D:/CUFE/arch-proj/src/components/fetch_decode.vhd|
+Z49 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/CUFE/arch-proj/src/components/fetch_decode.vhd|
+Z50 !s107 D:/CUFE/arch-proj/src/components/fetch_decode.vhd|
 !i113 1
 R13
 R14
@@ -327,20 +327,20 @@ R8
 R20
 !i10b 1
 R21
-R47
-R48
+R49
+R50
 !i113 1
 R13
 R14
 Einstruction_memory
-Z49 w1713428095
+Z51 w1713428095
 R1
 R2
 R3
 R4
 R5
-Z50 8D:/CUFE/arch-proj/src/components/instruction_memory.vhd
-Z51 FD:/CUFE/arch-proj/src/components/instruction_memory.vhd
+Z52 8D:/CUFE/arch-proj/src/components/instruction_memory.vhd
+Z53 FD:/CUFE/arch-proj/src/components/instruction_memory.vhd
 l0
 L10
 VUe?nTEhPoQHB]ODh5IZKb0
@@ -350,8 +350,8 @@ R8
 R20
 !i10b 1
 R21
-Z52 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/CUFE/arch-proj/src/components/instruction_memory.vhd|
-Z53 !s107 D:/CUFE/arch-proj/src/components/instruction_memory.vhd|
+Z54 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/CUFE/arch-proj/src/components/instruction_memory.vhd|
+Z55 !s107 D:/CUFE/arch-proj/src/components/instruction_memory.vhd|
 !i113 1
 R13
 R14
@@ -370,20 +370,20 @@ R8
 R20
 !i10b 1
 R21
-R52
-R53
+R54
+R55
 !i113 1
 R13
 R14
 Elogical_instructions
-Z54 w1713906671
+Z56 w1713906671
 R1
 R2
 R3
 R4
 R5
-Z55 8D:/CUFE/arch-proj/src/instructions/logical_instructions.vhd
-Z56 FD:/CUFE/arch-proj/src/instructions/logical_instructions.vhd
+Z57 8D:/CUFE/arch-proj/src/instructions/logical_instructions.vhd
+Z58 FD:/CUFE/arch-proj/src/instructions/logical_instructions.vhd
 l0
 L11
 VZXH:eWmdZi9e8?b1J<ThR0
@@ -393,8 +393,8 @@ R8
 R20
 !i10b 1
 R21
-Z57 !s90 -reportprogress|300|-work|mrk|-2002|-explicit|-stats=none|D:/CUFE/arch-proj/src/instructions/logical_instructions.vhd|
-Z58 !s107 D:/CUFE/arch-proj/src/instructions/logical_instructions.vhd|
+Z59 !s90 -reportprogress|300|-work|mrk|-2002|-explicit|-stats=none|D:/CUFE/arch-proj/src/instructions/logical_instructions.vhd|
+Z60 !s107 D:/CUFE/arch-proj/src/instructions/logical_instructions.vhd|
 !i113 1
 R22
 R14
@@ -413,8 +413,8 @@ R8
 R20
 !i10b 1
 R21
-R57
-R58
+R59
+R60
 !i113 1
 R22
 R14
@@ -433,37 +433,37 @@ R8
 !s110 1713403770
 !i10b 1
 !s108 1713403769.000000
-R57
-R58
+R59
+R60
 !i113 1
 R22
 R14
 w1713403766
 Ememory
-Z59 w1713406396
-Z60 DPx3 mrk 6 common 0 22 LXnh?M`ldaWPBnTJ^REK72
+Z61 w1713406396
+Z62 DPx3 mrk 6 common 0 22 LXnh?M`ldaWPBnTJ^REK72
 R2
 R3
 R4
 R5
-Z61 8D:/CUFE/arch-proj/src/components/memory.vhd
-Z62 FD:/CUFE/arch-proj/src/components/memory.vhd
+Z63 8D:/CUFE/arch-proj/src/components/memory.vhd
+Z64 FD:/CUFE/arch-proj/src/components/memory.vhd
 l0
 L10
 V:3KeI6Xik^lC@l2kKme0;3
 !s100 adfEl3ZnIaTajI:ST^:>`1
 R8
 32
-Z63 !s110 1713415890
+Z65 !s110 1713415890
 !i10b 1
-Z64 !s108 1713415889.000000
-Z65 !s90 -reportprogress|300|-work|mrk|-2002|-explicit|-stats=none|D:/CUFE/arch-proj/src/components/memory.vhd|
-Z66 !s107 D:/CUFE/arch-proj/src/components/memory.vhd|
+Z66 !s108 1713415889.000000
+Z67 !s90 -reportprogress|300|-work|mrk|-2002|-explicit|-stats=none|D:/CUFE/arch-proj/src/components/memory.vhd|
+Z68 !s107 D:/CUFE/arch-proj/src/components/memory.vhd|
 !i113 1
 R22
 R14
 Amemory_arch
-R60
+R62
 R2
 R3
 R4
@@ -474,34 +474,34 @@ VH[SjHLFD6ACdDQRO@kfAO0
 !s100 flaYAXD?n4Om0CRlJ;:553
 R8
 32
-R63
-!i10b 1
-R64
 R65
+!i10b 1
 R66
+R67
+R68
 !i113 1
 R22
 R14
 Ememory_writeback
-Z67 w1715911486
+Z69 w1715913403
 R1
 R2
 R3
 R4
 R5
-Z68 8D:/CUFE/arch-proj/src/components/memory_writeback.vhd
-Z69 FD:/CUFE/arch-proj/src/components/memory_writeback.vhd
+Z70 8D:/CUFE/arch-proj/src/components/memory_writeback.vhd
+Z71 FD:/CUFE/arch-proj/src/components/memory_writeback.vhd
 l0
 L10
-VH]UE9NnAJHJAHm;<]9g[B1
-!s100 Wl=9:dYX18BCQAENWc8DR0
+VSIQLVR78L`PekbBa0bWOf2
+!s100 Y^A;O<H:W;d7d^?LVh@<00
 R8
 32
-R9
+Z72 !s110 1715913447
 !i10b 1
-R10
-Z70 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/CUFE/arch-proj/src/components/memory_writeback.vhd|
-Z71 !s107 D:/CUFE/arch-proj/src/components/memory_writeback.vhd|
+Z73 !s108 1715913447.000000
+Z74 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/CUFE/arch-proj/src/components/memory_writeback.vhd|
+Z75 !s107 D:/CUFE/arch-proj/src/components/memory_writeback.vhd|
 !i113 1
 R13
 R14
@@ -510,30 +510,30 @@ R1
 R2
 R3
 R4
-DEx4 work 16 memory_writeback 0 22 H]UE9NnAJHJAHm;<]9g[B1
-l29
-L28
-V=@[zd7H^<n:TigW24^Lni3
-!s100 fRUZ1DEn<lK5z7nQ19c532
+DEx4 work 16 memory_writeback 0 22 SIQLVR78L`PekbBa0bWOf2
+l30
+L29
+VYAP4VF:4EJcMbN6e:AEmo1
+!s100 YHm6Jk6F5aSBUG;l0U^O=0
 R8
 32
-R9
+R72
 !i10b 1
-R10
-R70
-R71
+R73
+R74
+R75
 !i113 1
 R13
 R14
 Eopcode_checker
-Z72 w1713955477
+Z76 w1713955477
 R1
 R2
 R3
 R4
 R5
-Z73 8D:/CUFE/arch-proj/src/components/opcode_checker.vhd
-Z74 FD:/CUFE/arch-proj/src/components/opcode_checker.vhd
+Z77 8D:/CUFE/arch-proj/src/components/opcode_checker.vhd
+Z78 FD:/CUFE/arch-proj/src/components/opcode_checker.vhd
 l0
 L10
 VZlbYbU38ZOQ=e]KTP>f[>0
@@ -543,8 +543,8 @@ R8
 R9
 !i10b 1
 R21
-Z75 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/CUFE/arch-proj/src/components/opcode_checker.vhd|
-Z76 !s107 D:/CUFE/arch-proj/src/components/opcode_checker.vhd|
+Z79 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/CUFE/arch-proj/src/components/opcode_checker.vhd|
+Z80 !s107 D:/CUFE/arch-proj/src/components/opcode_checker.vhd|
 !i113 1
 R13
 R14
@@ -563,20 +563,20 @@ R8
 R9
 !i10b 1
 R21
-R75
-R76
+R79
+R80
 !i113 1
 R13
 R14
 Epc
-Z77 w1713429601
+Z81 w1713429601
 R1
 R2
 R3
 R4
 R5
-Z78 8D:/CUFE/arch-proj/src/components/pc.vhd
-Z79 FD:/CUFE/arch-proj/src/components/pc.vhd
+Z82 8D:/CUFE/arch-proj/src/components/pc.vhd
+Z83 FD:/CUFE/arch-proj/src/components/pc.vhd
 l0
 L10
 V4RhgSYF;M>zK2AY@^U]=63
@@ -586,10 +586,10 @@ R8
 R9
 !i10b 1
 R10
-Z80 !s90 -reportprogress|300|-work|work|-2008|-explicit|-stats=none|D:/CUFE/arch-proj/src/components/pc.vhd|
-Z81 !s107 D:/CUFE/arch-proj/src/components/pc.vhd|
+Z84 !s90 -reportprogress|300|-work|work|-2008|-explicit|-stats=none|D:/CUFE/arch-proj/src/components/pc.vhd|
+Z85 !s107 D:/CUFE/arch-proj/src/components/pc.vhd|
 !i113 1
-R38
+R40
 R14
 Apc_arch
 R1
@@ -606,74 +606,74 @@ R8
 R9
 !i10b 1
 R10
-R80
-R81
+R84
+R85
 !i113 1
-R38
+R40
 R14
 Eprocessor
-Z82 w1715911843
+Z86 w1715914357
 R1
 R2
 R3
 R4
 R5
-Z83 8D:/CUFE/arch-proj/src/components/processor.vhd
-Z84 FD:/CUFE/arch-proj/src/components/processor.vhd
+Z87 8D:/CUFE/arch-proj/src/components/processor.vhd
+Z88 FD:/CUFE/arch-proj/src/components/processor.vhd
 l0
 L10
 V]Hl5Og6j_SRYfMb@>mZ^C1
 !s100 ?I<Tf5<Vz9ChgGBJk6iDJ0
 R8
 33
-R9
+Z89 !s110 1715914391
 !i10b 1
-R10
-Z85 !s90 -reportprogress|300|-work|work|-2008|-explicit|-stats=none|D:/CUFE/arch-proj/src/components/processor.vhd|
-Z86 !s107 D:/CUFE/arch-proj/src/components/processor.vhd|
+Z90 !s108 1715914391.000000
+Z91 !s90 -reportprogress|300|-work|work|-2008|-explicit|-stats=none|D:/CUFE/arch-proj/src/components/processor.vhd|
+Z92 !s107 D:/CUFE/arch-proj/src/components/processor.vhd|
 !i113 1
-R38
+R40
 R14
 Aprocessor_arch
-Z87 DEx3 mrk 16 memory_writeback 0 22 H]UE9NnAJHJAHm;<]9g[B1
-Z88 DEx3 mrk 11 data_memory 0 22 T>LDI9^EzQ7i9WY4OY7^a1
-Z89 DEx3 mrk 14 execute_memory 0 22 W5A_S:VnBLGWo>hOfZ[Em2
-Z90 DEx3 mrk 3 alu 0 22 k7R^JKV<CPe`e>DkVSe6;1
-Z91 DEx3 mrk 14 decode_execute 0 22 10mfQ4V3CJJKS4]aZ6Y^:0
-Z92 DEx3 mrk 10 controller 0 22 `?YgRzj0[fNl?LS=C0=0n3
-Z93 DEx3 mrk 13 register_file 0 22 FR]=P;IZ0R_AXAJ<<83nd3
-Z94 DEx3 mrk 12 fetch_decode 0 22 E5BFLF:E>NbPA1^BVD7<n0
-Z95 DEx3 mrk 14 opcode_checker 0 22 ZlbYbU38ZOQ=e]KTP>f[>0
-Z96 DEx3 mrk 18 instruction_memory 0 22 Ue?nTEhPoQHB]ODh5IZKb0
-Z97 DEx3 mrk 2 pc 0 22 4RhgSYF;M>zK2AY@^U]=63
+Z93 DEx3 mrk 16 memory_writeback 0 22 SIQLVR78L`PekbBa0bWOf2
+Z94 DEx3 mrk 11 data_memory 0 22 T>LDI9^EzQ7i9WY4OY7^a1
+Z95 DEx3 mrk 14 execute_memory 0 22 W5A_S:VnBLGWo>hOfZ[Em2
+Z96 DEx3 mrk 3 alu 0 22 k7R^JKV<CPe`e>DkVSe6;1
+DEx3 mrk 14 decode_execute 0 22 8KOF=hT@5nIB73_OfW[nf1
+Z97 DEx3 mrk 10 controller 0 22 `?YgRzj0[fNl?LS=C0=0n3
+Z98 DEx3 mrk 13 register_file 0 22 FR]=P;IZ0R_AXAJ<<83nd3
+Z99 DEx3 mrk 12 fetch_decode 0 22 E5BFLF:E>NbPA1^BVD7<n0
+Z100 DEx3 mrk 14 opcode_checker 0 22 ZlbYbU38ZOQ=e]KTP>f[>0
+Z101 DEx3 mrk 18 instruction_memory 0 22 Ue?nTEhPoQHB]ODh5IZKb0
+Z102 DEx3 mrk 2 pc 0 22 4RhgSYF;M>zK2AY@^U]=63
 R1
 R2
 R3
 R4
-Z98 DEx4 work 9 processor 0 22 ]Hl5Og6j_SRYfMb@>mZ^C1
-l71
+Z103 DEx4 work 9 processor 0 22 ]Hl5Og6j_SRYfMb@>mZ^C1
+l74
 L20
-Z99 VbR6gz`n8BUcD_oifClBdW0
-Z100 !s100 eV0<7B7BF4z_QV2:]@U_z0
+VOGnUOeFI^hYzm>5gCP=Kc0
+!s100 >UQ1<MB<Yfazm]Y<fVkDJ2
 R8
 33
-R9
+R89
 !i10b 1
-R10
-R85
-R86
+R90
+R91
+R92
 !i113 1
-R38
+R40
 R14
 Eregister_file
-Z101 w1713961271
+Z104 w1713961271
 R1
 R2
 R3
 R4
 R5
-Z102 8D:/CUFE/arch-proj/src/components/register_file.vhd
-Z103 FD:/CUFE/arch-proj/src/components/register_file.vhd
+Z105 8D:/CUFE/arch-proj/src/components/register_file.vhd
+Z106 FD:/CUFE/arch-proj/src/components/register_file.vhd
 l0
 L11
 VFR]=P;IZ0R_AXAJ<<83nd3
@@ -683,10 +683,10 @@ R8
 R20
 !i10b 1
 R21
-Z104 !s90 -reportprogress|300|-work|work|-2008|-explicit|-stats=none|D:/CUFE/arch-proj/src/components/register_file.vhd|
-Z105 !s107 D:/CUFE/arch-proj/src/components/register_file.vhd|
+Z107 !s90 -reportprogress|300|-work|work|-2008|-explicit|-stats=none|D:/CUFE/arch-proj/src/components/register_file.vhd|
+Z108 !s107 D:/CUFE/arch-proj/src/components/register_file.vhd|
 !i113 1
-R38
+R40
 R14
 Aregister_file_arch
 R1
@@ -703,8 +703,8 @@ R8
 R20
 !i10b 1
 R21
-R104
-R105
+R107
+R108
 !i113 1
-R38
+R40
 R14
