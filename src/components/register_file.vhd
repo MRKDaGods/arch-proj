@@ -12,6 +12,9 @@ ENTITY Register_File IS
     PORT (
         clk : IN STD_LOGIC;
         reset : IN STD_LOGIC;
+        interrupt : IN STD_LOGIC; -- for sp
+        interruptRTI : IN STD_LOGIC;
+        pc : IN MEM_ADDRESS; -- for int
 
         -- two writes
         write_enable_1 : IN STD_LOGIC;
@@ -33,7 +36,9 @@ ENTITY Register_File IS
         read_data_2 : OUT REG32;
 
         -- stack pointer
-        out_sp : OUT SIGNED(31 DOWNTO 0)
+        out_sp : OUT SIGNED(31 DOWNTO 0);
+        interrupt_sp : OUT SIGNED(31 DOWNTO 0);
+        interrupt_pc : OUT MEM_ADDRESS
     );
 END Register_File;
 
@@ -44,11 +49,17 @@ ARCHITECTURE Register_File_Arch OF Register_File IS
     SIGNAL sp : SIGNED(31 DOWNTO 0) := to_signed(4095, 32);
 
 BEGIN
-    PROCESS (clk, reset)
+    PROCESS (clk, reset, interrupt)
+        VARIABLE tmpSp : SIGNED(31 DOWNTO 0);
     BEGIN
         IF reset = '1' THEN
             regs <= (OTHERS => (OTHERS => '0'));
             sp <= to_signed(4095, sp'length);
+        ELSIF interrupt'event AND interrupt = '1' THEN
+            tmpSp := sp - 4;
+            interrupt_sp <= tmpSp;
+            sp <= tmpSp; -- 4 word (2 flags, 2 pc)
+            interrupt_pc <= std_logic_vector(unsigned(pc) + 1);
         ELSIF rising_edge(clk) THEN
             -- stack pointer update
             IF signal_bus(SIGBUS_OP_PUSH) = '1' THEN

@@ -11,12 +11,14 @@ ENTITY PC IS
     PORT (
         clk : IN STD_LOGIC;
         reset : IN STD_LOGIC;
+        interrupt : IN STD_LOGIC; -- from INTERRUPT, do we need to jump to interrupt address?
         extra_reads : IN STD_LOGIC; -- from opcode checker, do we need to increment twice in 1 cycle?
         pcWait : IN STD_LOGIC; -- from FETCH, do we need to wait?
 
         enforcedPcExecute : IN MEM_ADDRESS; -- from EXECUTE, do we need to enforce PC?
         enforcedPcMemory : IN MEM_ADDRESS;
         reset_address : IN MEM_ADDRESS;
+        interrupt_routine_address : IN MEM_ADDRESS;
 
         pcCounter : OUT MEM_ADDRESS
     );
@@ -26,11 +28,14 @@ ARCHITECTURE PC_Arch OF PC IS
     SIGNAL internal_pcCounter : MEM_ADDRESS;
 
 BEGIN
-    PROCESS (clk, reset)
+    PROCESS (clk, reset, interrupt)
     BEGIN
         IF reset'event THEN
             -- reset pc to 0
             internal_pcCounter <= reset_address;
+        ELSIF interrupt'event AND interrupt = '1' THEN
+            -- if we're jumping to interrupt, set PC to 0
+            internal_pcCounter <= interrupt_routine_address;
         ELSIF pcWait = '1' THEN
             -- if we're waiting, don't increment PC
             internal_pcCounter <= internal_pcCounter;

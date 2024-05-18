@@ -17,12 +17,14 @@ ENTITY Execute_Memory IS
         write_address : IN REG_SELECTOR;
         mem_write_data : IN REG32; -- read_data_2
         alu_result : IN REG32;
+        pc : IN MEM_ADDRESS;
 
         -- output
         out_signal_bus : OUT SIGBUS;
         out_write_address : OUT REG_SELECTOR;
         out_mem_write_data : OUT REG32;
-        out_alu_result : OUT REG32
+        out_alu_result : OUT REG32;
+        out_pc : OUT MEM_ADDRESS
     );
 END Execute_Memory;
 
@@ -49,4 +51,6 @@ BEGIN
             END IF;
         END IF;
     END PROCESS;
+
+    out_pc <= pc;
 END Execute_Memory_Arch;

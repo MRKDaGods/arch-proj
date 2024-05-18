@@ -24,6 +24,9 @@ ARCHITECTURE Arithmetic_Instructions_Arch OF Arithmetic_Instructions IS
     SIGNAL op_2 : signed(31 DOWNTO 0);
     SIGNAL neg_operand_2 : signed(31 DOWNTO 0); -- negated operand_2
     SIGNAL internal_result : REG32; -- internal result
+    SIGNAL extended_op_1 : signed(32 DOWNTO 0); -- extended operand for carry detection
+    SIGNAL extended_op_2 : signed(32 DOWNTO 0); -- extended operand for carry detection
+    SIGNAL extended_result : signed(32 DOWNTO 0); -- extended result for carry detection
 
 BEGIN
     -- single adder for all arithmetic operations
@@ -51,23 +54,30 @@ BEGIN
     internal_result <= STD_LOGIC_VECTOR(op_1 + op_2);
     result <= internal_result;
 
-    -- ALI CHANGE CODE HERE
-    -- e7sb el carry wl overflow flag lel SUB, SUBI, DEC btre2a
-    -- w lel ADD, INC, ADDI btre2a tnya
+    -- Extended operands for carry detection
+    extended_op_1 <= signed('0' & op_1);
+    extended_op_2 <= signed('0' & op_2);
+    extended_result <= extended_op_1 + extended_op_2;
 
-    -- set the flags
-    carry_flag <= '1' WHEN
-    -- For addition: carry occurs if result is greater than or equal to 2^32
-    (opcode = OPCODE_ADD AND (internal_result(31) = '1')) OR
-    -- For subtraction: borrow occurs if minuend is smaller than subtrahend
-    ((opcode = OPCODE_SUB OR opcode = OPCODE_SUBI OR opcode = OPCODE_DEC) AND op_1 < abs(op_2)) ELSE
-    '0';
+    -- Handle the carry flag for both addition and subtraction
+    carry_flag <= '1' WHEN (
+        (opcode = OPCODE_ADD OR opcode = OPCODE_ADDI OR opcode = OPCODE_INC) AND
+        (extended_result(32) = '1')
+        ) OR (
+        (opcode = OPCODE_SUB OR opcode = OPCODE_SUBI OR opcode = OPCODE_DEC) AND
+        (unsigned(op_1) < unsigned(op_2))
+        ) ELSE
+        '0';
 
-    overflow_flag <= '1' WHEN
-    -- For signed overflow: sign of result differs from signs of operands
-    ((op_1(31) = op_2(31)) AND (op_1(31) /= internal_result(31))) ELSE
-    '0'; -- no overflow
-
-    --ya bronzeeeeee ya fashel 
-
+    -- Correct the overflow flag logic
+    overflow_flag <= '1' WHEN (
+        -- Overflow in addition
+        (opcode = OPCODE_ADD OR opcode = OPCODE_ADDI OR opcode = OPCODE_INC) AND
+        ((op_1(31) = op_2(31)) AND (op_1(31) /= internal_result(31)))
+        ) OR (
+        -- Overflow in subtraction
+        (opcode = OPCODE_SUB OR opcode = OPCODE_SUBI OR opcode = OPCODE_DEC) AND
+        ((op_1(31) /= op_2(31)) AND (op_1(31) /= internal_result(31)))
+        ) ELSE
+        '0';
 END Arithmetic_Instructions_Arch;

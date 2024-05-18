@@ -21,13 +21,15 @@ ENTITY Memory_WriteBack IS
         alu_result : IN REG32;
         mem_data : IN REG32;
         in_port : IN REG32;
+        pc : IN MEM_ADDRESS;
 
         -- Outputs
         out_write_enable : OUT STD_LOGIC;
         out_write_address : OUT REG_SELECTOR;
         out_write_data : OUT REG32;
         out_enforcedPc : OUT MEM_ADDRESS;
-        out_flush : OUT STD_LOGIC
+        out_flush : OUT STD_LOGIC;
+        out_pc : OUT MEM_ADDRESS
     );
 END Memory_WriteBack;
 
@@ -67,5 +69,7 @@ BEGIN
             END IF;
         END IF;
     END PROCESS;
+
+    out_pc <= pc;
 
 END Memory_WriteBack_Arch;

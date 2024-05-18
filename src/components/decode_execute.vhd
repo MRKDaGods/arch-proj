@@ -49,7 +49,9 @@ ENTITY Decode_Execute IS
 
         out_enforcedPc : OUT MEM_ADDRESS;
 
-        flush : OUT STD_LOGIC
+        flush : OUT STD_LOGIC;
+        reset_flags : OUT STD_LOGIC;
+        out_pc : OUT MEM_ADDRESS
     );
 END Decode_Execute;
 
@@ -99,8 +101,10 @@ BEGIN
                 IF signal_bus(SIGBUS_OP_JMP) = '1' OR (signal_bus(SIGBUS_OP_JZ) = '1' AND flags(3) = '1') THEN
                     out_enforcedPc <= read_data_1;
                     flush <= '1';
+                    reset_flags <= '1';
                 ELSIF instr_opcode = OPCODE_RET THEN
                     flush <= '1'; -- because of JMP
+                    reset_flags <= '1';
                     out_enforcedPc <= (OTHERS => '1');
                 ELSE
                     out_enforcedPc <= (OTHERS => '1');
@@ -112,8 +116,11 @@ BEGIN
                 END IF;
             ELSIF falling_edge(clk) THEN
                 flush <= '0';
+                reset_flags <= '0';
             END IF;
         END IF;
     END PROCESS;
+
+    out_pc <= pc;
 
 END Decode_Execute_Arch;

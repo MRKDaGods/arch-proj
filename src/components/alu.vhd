@@ -52,6 +52,9 @@ BEGIN
             N <= '0';
             C <= '0';
             O <= '0';
+            arithmetic_carry_flag <= '0';
+            arithmetic_overflow_flag <= '0';
+            
         ELSE
             IF signal_bus(SIGBUS_ALU_UPDATE_FLAGS) = '1' THEN
                 -- update zero flag regardless
