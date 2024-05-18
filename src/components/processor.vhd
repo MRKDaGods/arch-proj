@@ -56,7 +56,6 @@ ARCHITECTURE Processor_Arch OF Processor IS
     SIGNAL de_instr_immediate : SIGNED(31 DOWNTO 0);
     SIGNAL de_enforcedPc : MEM_ADDRESS := (OTHERS => '1');
     SIGNAL de_flush : STD_LOGIC := '0'; -- flush?
-    SIGNAL de_stall : STD_LOGIC := '0'; -- stall?
 
     -- alu
     SIGNAL alu_result : REG32;
@@ -106,7 +105,7 @@ BEGIN
             clk => clk,
             reset => reset,
             extra_reads => opc_extra_reads,
-            pcWait => fd_pc_wait OR de_stall,
+            pcWait => fd_pc_wait,
             enforcedPcExecute => de_enforcedPc,
             enforcedPcMemory => wb_enforcedPc,
             reset_address => reset_address,
@@ -195,19 +194,12 @@ BEGIN
             read_data_1 => regf_read_data_1,
             read_data_2 => regf_read_data_2,
 
-            read_addr_1 => fd_fetched_instruction(7 DOWNTO 5), -- src1
-            read_addr_2 => fd_fetched_instruction(10 DOWNTO 8), -- src2
-            em_write_address => em_write_address,
-            em_write_enabled => em_signal_bus(SIGBUS_WRITE_ENABLE), -- write enable
-            em_alu_result => em_alu_result,
-
             instr_opcode => fd_fetched_instruction(4 DOWNTO 0),
             instr_immediate => fd_fetched_instruction(31 DOWNTO 16),
 
             pc => fd_pc,
             sp => regf_sp,
             flags => alu_flags,
-            in_port => in_port,
 
             -- output
             out_signal_bus => de_signal_bus,
@@ -221,8 +213,7 @@ BEGIN
 
             out_port => out_port_buffer,
             out_enforcedPc => de_enforcedPc,
-            flush => de_flush,
-            stall => de_stall
+            flush => de_flush
         );
 
     -- alu

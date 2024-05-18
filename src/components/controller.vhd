@@ -114,12 +114,11 @@ BEGIN
         '1' WHEN OPCODE_CALL, -- pass through PC
         '1' WHEN OPCODE_PROTECT,
         '1' WHEN OPCODE_FREE,
-        '1' WHEN OPCODE_IN,
         '0' WHEN OTHERS;
 
     -- when do we use immediate value as the second operand?
     signal_bus(SIGBUS_ALU_USE_IMMEDIATE) <=
-    '1' WHEN reserved_bit = '1' OR signal_bus(SIGBUS_USE_SP) = '1' OR opcode = OPCODE_IN ELSE
+    '1' WHEN reserved_bit = '1' OR signal_bus(SIGBUS_USE_SP) = '1' ELSE
     '0';
 
     -- when do we need to update flags? (to optimize, do we need all these with select?)
