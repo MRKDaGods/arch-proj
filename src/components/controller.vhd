@@ -45,29 +45,30 @@ BEGIN
         '0' WHEN OPCODE_FREE,
         '0' WHEN OPCODE_STD,
         '0' WHEN OPCODE_PUSH,
+        '0' WHEN OPCODE_PUSHPC,
         '0' WHEN OPCODE_CMP,
         '0' WHEN OPCODE_JZ,
         '0' WHEN OPCODE_JMP,
         '0' WHEN OPCODE_CALL,
         '0' WHEN OPCODE_RET,
+        '0' WHEN OPCODE_POPPC,
         '0' WHEN OPCODE_RTI,
-        '0' WHEN OPCODE_RESET,
-        '0' WHEN OPCODE_INTERRUPT,
         '1' WHEN OTHERS;
 
     -- when do we write to memory?
     WITH opcode SELECT
         signal_Bus(SIGBUS_MEM_WRITE) <=
         '1' WHEN OPCODE_PUSH,
+        '1' WHEN OPCODE_PUSHPC,
         '1' WHEN OPCODE_STD,
         '1' WHEN OPCODE_CALL,
-        '1' WHEN OPCODE_INTERRUPT,
         '0' WHEN OTHERS;
 
     -- when do we read from memory?
     WITH opcode SELECT
         signal_Bus(SIGBUS_MEM_READ) <=
         '1' WHEN OPCODE_POP,
+        '1' WHEN OPCODE_POPPC,
         '1' WHEN OPCODE_LDD,
         '1' WHEN OPCODE_RET,
         '1' WHEN OPCODE_RTI,
@@ -86,6 +87,7 @@ BEGIN
     WITH opcode SELECT
         signal_bus(SIGBUS_MEM_TO_REG) <=
         '1' WHEN OPCODE_POP,
+        '1' WHEN OPCODE_POPPC,
         '1' WHEN OPCODE_LDD,
         '0' WHEN OTHERS;
 
@@ -103,10 +105,15 @@ BEGIN
         '1' WHEN OPCODE_SWAP,
         '1' WHEN OPCODE_LDM,
         '1' WHEN OPCODE_PUSH, -- pass through SP
+        '1' WHEN OPCODE_PUSHPC, -- pass through PC
         '1' WHEN OPCODE_POP, -- pass through SP
+        '1' WHEN OPCODE_POPPC, -- pass through PC
+        '1' WHEN OPCODE_RET, -- pass through PC
         '1' WHEN OPCODE_JMP, -- pass through PC
         '1' WHEN OPCODE_JZ, -- pass through PC
         '1' WHEN OPCODE_CALL, -- pass through PC
+        '1' WHEN OPCODE_PROTECT,
+        '1' WHEN OPCODE_FREE,
         '0' WHEN OTHERS;
 
     -- when do we use immediate value as the second operand?
@@ -144,18 +151,27 @@ BEGIN
     WITH opcode SELECT
         signal_bus(SIGBUS_USE_SP) <=
         '1' WHEN OPCODE_PUSH,
+        '1' WHEN OPCODE_PUSHPC,
         '1' WHEN OPCODE_POP,
+        '1' WHEN OPCODE_POPPC,
+        '1' WHEN OPCODE_RET,
         '0' WHEN OTHERS;
 
-    signal_bus(SIGBUS_OP_PUSH) <= '1' WHEN opcode = OPCODE_PUSH ELSE
+    signal_bus(SIGBUS_OP_PUSH) <= '1' WHEN opcode = OPCODE_PUSH OR opcode = OPCODE_PUSHPC ELSE
     '0';
-    signal_bus(SIGBUS_OP_POP) <= '1' WHEN opcode = OPCODE_POP ELSE
+    signal_bus(SIGBUS_OP_POP) <= '1' WHEN opcode = OPCODE_POP OR opcode = OPCODE_POPPC ELSE
     '0';
 
     signal_bus(SIGBUS_OP_JMP) <= '1' WHEN opcode = OPCODE_JMP ELSE
     '0';
     signal_bus(SIGBUS_OP_JZ) <= '1' WHEN opcode = OPCODE_JZ ELSE
     '0';
+
+    signal_bus(SIGBUS_OP_POPPC) <= '1' WHEN opcode = OPCODE_POPPC OR opcode = OPCODE_RET ELSE
+    '0';
+
+    signal_bus(SIGBUG_OP_PROTECT) <= '1' WHEN opcode = OPCODE_PROTECT ELSE '0';
+    signal_bus(SIGBUS_OP_FREE) <= '1' WHEN opcode = OPCODE_FREE ELSE '0';
 
     out_signal_bus <= signal_bus;
 

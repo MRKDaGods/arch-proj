@@ -15,15 +15,18 @@ ENTITY Fetch_Decode IS
         raw_instruction : IN MEM_CELL; -- 16 bit from instr mem
         extra_reads : IN STD_LOGIC; -- from opcode checker
 
+        pc : IN MEM_ADDRESS; -- we're passing pc for PUSH/POPPC
+
         pc_wait : OUT STD_LOGIC; -- stall the PC
 
-        out_instruction : OUT FETCHED_INSTRUCTION -- 32 bit
+        out_instruction : OUT FETCHED_INSTRUCTION; -- 32 bit
+        out_pc : OUT MEM_ADDRESS -- for PUSH/POPPC
     );
 END Fetch_Decode;
 
 ARCHITECTURE Fetch_Decode_Arch OF Fetch_Decode IS
 BEGIN
-    PROCESS (clk, reset)
+    PROCESS (clk, reset, flush)
         VARIABLE instruction_buffer : MEM_CELL := (OTHERS => '0');
         VARIABLE has_buffer : BOOLEAN := FALSE;
 
@@ -37,6 +40,9 @@ BEGIN
             is_swap_buffer := FALSE;
             pc_wait <= '0';
         ELSIF rising_edge(clk) THEN
+
+            out_pc <= pc;
+
             -- read first 16 bits
 
             IF has_buffer THEN
@@ -70,6 +76,20 @@ BEGIN
                         & "000" -- SRC2
                         & raw_instruction(13 DOWNTO 11) -- DST
                         & OPCODE_MOV; -- OPCODE
+
+                    has_buffer := TRUE;
+                    is_swap_buffer := TRUE;
+                ELSIF raw_instruction(4 DOWNTO 0) = OPCODE_CALL THEN
+                    pc_wait <= '1';
+
+                    -- synthesize pushp instruction
+                    out_instruction <= (26 DOWNTO 0 => '0')
+                        & OPCODE_PUSHPC; -- OPCODE
+
+                    -- set instruction buffer to JMP Rsrc1
+                    instruction_buffer := (7 DOWNTO 0 => '0')
+                        & raw_instruction(7 DOWNTO 5) -- SRC1
+                        & OPCODE_JMP; -- OPCODE
 
                     has_buffer := TRUE;
                     is_swap_buffer := TRUE;

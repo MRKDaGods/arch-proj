@@ -13,27 +13,33 @@ ENTITY PC IS
         reset : IN STD_LOGIC;
         extra_reads : IN STD_LOGIC; -- from opcode checker, do we need to increment twice in 1 cycle?
         pcWait : IN STD_LOGIC; -- from FETCH, do we need to wait?
-        enforcedPc : IN MEM_ADDRESS; -- from EXECUTE, do we need to enforce PC?
+
+        enforcedPcExecute : IN MEM_ADDRESS; -- from EXECUTE, do we need to enforce PC?
+        enforcedPcMemory : IN MEM_ADDRESS;
+        reset_address : IN MEM_ADDRESS;
+
         pcCounter : OUT MEM_ADDRESS
     );
 END ENTITY PC;
 
 ARCHITECTURE PC_Arch OF PC IS
-    SIGNAL internal_pcCounter : MEM_ADDRESS := (OTHERS => '0');
+    SIGNAL internal_pcCounter : MEM_ADDRESS;
 
 BEGIN
     PROCESS (clk, reset)
     BEGIN
-        IF reset = '1' THEN
+        IF reset'event THEN
             -- reset pc to 0
-            internal_pcCounter <= (OTHERS => '0');
+            internal_pcCounter <= reset_address;
         ELSIF pcWait = '1' THEN
             -- if we're waiting, don't increment PC
             internal_pcCounter <= internal_pcCounter;
         ELSIF rising_edge(clk) THEN
-            IF enforcedPc /= (0 TO 31 => '1') THEN
+            IF enforcedPcMemory /= (0 TO 31 => '1') AND enforcedPcMemory /= (0 TO 31 => 'U') THEN
                 -- if we're enforcing PC, set PC to the enforced value
-                internal_pcCounter <= enforcedPc;
+                internal_pcCounter <= enforcedPcMemory;
+            ELSIF enforcedPcExecute /= (0 TO 31 => '1') AND enforcedPcExecute /= (0 TO 31 => 'U') THEN
+                internal_pcCounter <= enforcedPcExecute;
             ELSE
                 -- in rising edge, we'll increment PC as usual
                 internal_pcCounter <= STD_LOGIC_VECTOR(unsigned(internal_pcCounter) + 1);
