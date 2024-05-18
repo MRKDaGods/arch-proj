@@ -69,6 +69,7 @@ ARCHITECTURE Processor_Arch OF Processor IS
 
     -- data memory
     SIGNAL dm_out : REG32;
+    SIGNAL dm_exception : STD_LOGIC;
 
     -- write back
     SIGNAL wb_write_enable : STD_LOGIC;
@@ -260,7 +261,8 @@ BEGIN
             data_in => em_mem_write_data,
 
             read_enable => em_signal_bus(SIGBUS_MEM_READ),
-            data_out => dm_out
+            data_out => dm_out,
+            exception => dm_exception
         );
 
     -- write back
@@ -285,5 +287,8 @@ BEGIN
 
     -- output port
     out_port <= out_port_buffer;
+
+    -- exception
+    exception <= dm_exception OR alu_flags(0);
 
 END Processor_Arch;
