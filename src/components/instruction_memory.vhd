@@ -12,8 +12,7 @@ ENTITY Instruction_Memory IS
         clk : IN STD_LOGIC;
         reset : IN STD_LOGIC;
         pc : IN MEM_ADDRESS;
-        data : OUT MEM_CELL; -- output data 16 bit
-        reset_address : OUT MEM_ADDRESS
+        data : OUT MEM_CELL -- output data 16 bit
     );
 END Instruction_Memory;
 
@@ -30,6 +29,5 @@ BEGIN
     END PROCESS;
 
     data <= memory_arr(to_integer(unsigned(pc)));
-    reset_address <= memory_arr(1) & memory_arr(0);
 
 END Instruction_Memory_Arch;

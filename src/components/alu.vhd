@@ -9,7 +9,6 @@ USE MRK.COMMON.ALL;
 
 ENTITY ALU IS
     PORT (
-        reset : IN STD_LOGIC; -- reset
         operand_1 : IN REG32; -- first
         operand_2 : IN REG32; -- second
         immediate : IN SIGNED(31 DOWNTO 0); -- sign extended immediate value
@@ -24,8 +23,7 @@ ENTITY ALU IS
         -- ctrl_use_immediate : IN STD_LOGIC; -- use immediate value
         -- ctrl_update_flags : IN STD_LOGIC; -- update flags
 
-        result : OUT REG32; -- result
-        flags : OUT STD_LOGIC_VECTOR(3 DOWNTO 0) -- flags
+        result : OUT REG32 -- result
     );
 END ENTITY ALU;
 
@@ -45,31 +43,24 @@ ARCHITECTURE ALU_Arch OF ALU IS
 
 BEGIN
 
-    flagsProcess : PROCESS (reset, signal_bus(SIGBUS_ALU_UPDATE_FLAGS), internal_result)
+    flagsProcess : PROCESS (signal_bus(SIGBUS_ALU_UPDATE_FLAGS), internal_result)
     BEGIN
-        IF reset = '1' THEN
-            Z <= '0';
-            N <= '0';
-            C <= '0';
-            O <= '0';
-        ELSE
-            IF signal_bus(SIGBUS_ALU_UPDATE_FLAGS) = '1' THEN
-                -- update zero flag regardless
-                IF internal_result = (31 DOWNTO 0 => '0') THEN
-                    Z <= '1';
-                ELSE
-                    Z <= '0';
-                END IF;
+        IF signal_bus(SIGBUS_ALU_UPDATE_FLAGS) = '1' THEN
+            -- update zero flag regardless
+            IF internal_result = (31 DOWNTO 0 => '0') THEN
+                Z <= '1';
+            ELSE
+                Z <= '0';
+            END IF;
 
-                -- update negative flag regardless
-                N <= internal_result(31);
+            -- update negative flag regardless
+            N <= internal_result(31);
 
-                -- only update carry and overflow flags if not using logic
-                IF signal_bus(SIGBUS_ALU_USE_LOGICAL) = '0' AND opcode /= OPCODE_CMP THEN
-                    -- update flags
-                    C <= arithmetic_carry_flag;
-                    O <= arithmetic_overflow_flag;
-                END IF;
+            -- only update carry and overflow flags if not using logic
+            IF signal_bus(SIGBUS_ALU_USE_LOGICAL) = '0' AND opcode /= OPCODE_CMP THEN
+                -- update flags
+                C <= arithmetic_carry_flag;
+                O <= arithmetic_overflow_flag;
             END IF;
         END IF;
     END PROCESS flagsProcess;
@@ -105,6 +96,5 @@ BEGIN
         result_arithmetic;
 
     result <= internal_result;
-    flags <= Z & N & C & O;
 
 END ALU_Arch;
