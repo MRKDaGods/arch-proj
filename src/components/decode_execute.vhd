@@ -23,6 +23,13 @@ ENTITY Decode_Execute IS
         read_data_1 : IN REG32;
         read_data_2 : IN REG32;
 
+        -- hazard stuff
+        read_addr_1 : IN REG_SELECTOR;
+        read_addr_2 : IN REG_SELECTOR;
+        em_write_address : IN REG_SELECTOR; -- from execute/mem
+        em_write_enabled : IN STD_LOGIC;
+        em_alu_result : IN REG32;
+
         instr_opcode : IN OPCODE;
         instr_immediate : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 
@@ -31,6 +38,7 @@ ENTITY Decode_Execute IS
         sp : IN SIGNED(31 DOWNTO 0);
 
         flags : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+        in_port : IN REG32;
 
         -- output
         out_signal_bus : OUT SIGBUS;
@@ -49,13 +57,15 @@ ENTITY Decode_Execute IS
 
         out_enforcedPc : OUT MEM_ADDRESS;
 
-        flush : OUT STD_LOGIC
+        flush : OUT STD_LOGIC;
+        stall : OUT STD_LOGIC
     );
 END Decode_Execute;
 
 ARCHITECTURE Decode_Execute_Arch OF Decode_Execute IS
 BEGIN
     PROCESS (clk, in_flush)
+        VARIABLE isStalling : BOOLEAN := FALSE;
     BEGIN
         IF in_flush = '1' THEN
             out_signal_bus <= (OTHERS => '0');
@@ -74,17 +84,42 @@ BEGIN
 
                 out_write_address <= write_address;
 
+                IF em_write_enabled = '1'
+                    AND (read_addr_1 = em_write_address OR read_addr_2 = em_write_address) THEN
+                    -- stall
+                    stall <= '1';
+                    isStalling := TRUE;
+                    out_enforcedPc <= pc; -- stall same addr
+                ELSE
+                    stall <= '0';
+                    isStalling := FALSE;
+                END IF;
+
                 IF instr_opcode = OPCODE_PUSHPC THEN
                     out_read_data_2 <= STD_LOGIC_VECTOR(unsigned(pc) + 1);
                 ELSE
-                    out_read_data_2 <= read_data_2;
+                    IF em_write_enabled = '1' THEN
+                        IF read_addr_2 = em_write_address THEN -- ff
+                            out_read_data_2 <= em_alu_result;
+                        END IF;
+                    ELSE
+                        out_read_data_2 <= read_data_2;
+                    END IF;
                 END IF;
 
-                out_read_data_1 <= read_data_1;
+                IF em_write_enabled = '1' THEN
+                    IF read_addr_1 = em_write_address THEN
+                        out_read_data_1 <= em_alu_result;
+                    END IF;
+                ELSE
+                    out_read_data_1 <= read_data_1;
+                END IF;
 
                 out_instr_opcode <= instr_opcode;
 
-                IF signal_bus(SIGBUS_USE_SP) = '1' THEN
+                IF instr_opcode = OPCODE_IN THEN
+                    out_instr_immediate <= signed(in_port);
+                ELSIF signal_bus(SIGBUS_USE_SP) = '1' THEN
                     out_instr_immediate <= sp;
                 ELSE
                     -- sign extend immediate in LDD and STD only
@@ -95,15 +130,17 @@ BEGIN
                     END IF;
                 END IF;
 
-                -- check for jmp
-                IF signal_bus(SIGBUS_OP_JMP) = '1' OR (signal_bus(SIGBUS_OP_JZ) = '1' AND flags(3) = '1') THEN
-                    out_enforcedPc <= read_data_1;
-                    flush <= '1';
-                ELSIF instr_opcode = OPCODE_RET THEN
-                    flush <= '1'; -- because of JMP
-                    out_enforcedPc <= (OTHERS => '1');
-                ELSE
-                    out_enforcedPc <= (OTHERS => '1');
+                IF isStalling = FALSE THEN
+                    -- check for jmp
+                    IF signal_bus(SIGBUS_OP_JMP) = '1' OR (signal_bus(SIGBUS_OP_JZ) = '1' AND flags(3) = '1') THEN
+                        out_enforcedPc <= read_data_1;
+                        flush <= '1';
+                    ELSIF instr_opcode = OPCODE_RET THEN
+                        flush <= '1'; -- because of JMP
+                        out_enforcedPc <= (OTHERS => '1');
+                    ELSE
+                        out_enforcedPc <= (OTHERS => '1');
+                    END IF;
                 END IF;
 
                 -- out instruction
